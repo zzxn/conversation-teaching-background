@@ -1,0 +1,84 @@
+.student_details {
+  float: left;
+  margin-left: 170px;
+  width: 180px;
+  height: 400px;
+  background-color: white;
+  border: solid #1890FF;
+}
+
+.student_details{
+  border-radius: 9px;
+  box-shadow: #C9C9C9 1px 1px 20px 1px;
+}
+
+.student_details img {
+  margin-top: 10px;
+  width: 150px;
+  height: 150px;
+}
+
+.student_details_info ul {
+  margin-left: -20px;
+  list-style-type: none;
+  text-align: left;
+  font-weight: 600;
+  line-height: 2.5;
+}
+
+.student_course_info div{
+  width: 800px;
+  height: 200px;
+  border: solid #1890FF;
+  margin-left: 380px;
+  margin-bottom: 20px;
+  text-align: left;
+  box-shadow: #C9C9C9 1px 1px 20px 1px;
+  border-radius: 9px;
+}
+.student_course_info_header{
+  font-size: 20px;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.student_course_ul{
+
+}
+
+.student_course_ul li{
+
+}
+
+.student_course_ul p{
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.student_course_progress ul li{
+  margin-right: 30px;
+}
+
+.student_course_progress p{
+  font-weight: 600;
+}
+
+#student_course_progress_div{
+  height: 300px;
+}
+
+#student_mastery_exercises{
+  height: 300px;
+}
+
+.student_mastery_exercises table{
+  margin-left: 20px;
+}
+
+.student_mastery_exercises td{
+  padding: 15px;
+  font-weight: 600;
+}

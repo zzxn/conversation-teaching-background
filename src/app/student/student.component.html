@@ -1,9 +1,47 @@
 <nz-layout>
   <nz-content style="background:#fff; padding: 32px; min-height: 280px; text-align: center;">
-    <p>这里是学生详情的实现</p>
-    <p>会显示学生的详细个人信息</p>
-    <p>他所选的课</p>
-    <p>本课程的进度</p>
-    <p>每一道题的正确错误情况</p>
+    <div class="student_details">
+      <img src="../../assets/meng.png">
+      <div class="student_details_info">
+        <ul>
+          <li>姓名：王萌</li>
+          <li>学号：16302010044</li>
+          <li>专业：软件工程</li>
+        </ul>
+      </div>
+    </div>
+    <div class="student_course_info">
+      <div>
+        <p class="student_course_info_header">学生所选课程：</p>
+        <ul class="student_course_ul">
+          <li><p>计算机图形学</p></li>
+          <li><p>高级web</p></li>
+          <li><p>系统程序设计</p></li>
+        </ul>
+      </div>
+      <div id="student_course_progress_div">
+        <p class="student_course_info_header">所选课程的进度：</p>
+        <ul class="student_course_progress">
+          <li><p>计算机图形学</p><nz-progress [nzPercent]="47"></nz-progress></li>
+          <li><p>高级web</p><nz-progress [nzPercent]="50"></nz-progress></li>
+          <li><p>系统程序设计</p><nz-progress [nzPercent]="40"></nz-progress></li>
+        </ul>
+      </div>
+      <div class="student_mastery_exercises" id="student_mastery_exercises">
+           <p class="student_course_info_header">习题的掌握情况：</p>
+           <table>
+             <tr>
+               <td><p>计算机图形学习题正确率</p></td>
+               <td><p>高级web习题正确率</p></td>
+               <td><p>系统程序设计习题正确率</p></td>
+             </tr>
+             <tr>
+               <td><nz-progress [nzPercent]="60" nzType="circle" [nzWidth]="80"></nz-progress></td>
+               <td><nz-progress [nzPercent]="80" nzType="circle" [nzWidth]="80"></nz-progress></td>
+               <td><nz-progress [nzPercent]="70" nzType="circle" [nzWidth]="80"></nz-progress></td>
+             </tr>
+           </table>
+      </div>
+    </div>
   </nz-content>
 </nz-layout>

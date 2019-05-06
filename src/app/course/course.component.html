@@ -21,15 +21,13 @@
   </nz-sider>
   <nz-layout>
     <nz-page-header
-      (nzBack)="0"
-      nzBackIcon
       [nzTitle]="course.name"
       nzSubtitle="课程管理 > {{ course.name }}：基本信息">
     </nz-page-header>
-    <nz-content style="background:#fff; padding: 32px; min-height: 280px;">
+    <nz-content class="course-info" style="background:#fff; padding: 32px; min-height: 280px;">
       <p><b>课程id：</b>{{course.id}}</p>
       <p><b>课程描述：</b>{{course.description}}</p>
-      <p><b>选课人数：</b>{{course.select_num}}</p>
+      <p><b>选课人数：</b><nz-badge [nzNoAnimation]="true" [nzStyle]="{ backgroundColor: '#52c41a' }" [nzCount]="course.select_num"></nz-badge></p>
     </nz-content>
   </nz-layout>
 </nz-layout>

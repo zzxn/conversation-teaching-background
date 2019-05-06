@@ -1,10 +1,15 @@
 <nz-layout class="layout">
   <nz-header>
     <div *ngIf="!isCollapse" class="logo"></div>
+    <nz-input-group id="searchGroup" [nzSuffix]="suffixIconSearch">
+      <label style="display: none">搜索课程/学生：</label>
+      <input id="searchBox" nzSize="large" type="search" nz-input placeholder="搜索课程" />
+      <ng-template #suffixIconSearch>
+        <i nz-icon type="search"></i>
+      </ng-template>
+    </nz-input-group>
     <ul
       id="mainMenu"
-      [class.small-padding]="isCollapse"
-      [class.big-padding]="!isCollapse"
       nz-menu [nzMode]="'horizontal'"
       [nzSelectable]="false"
       style="line-height: 62px;"

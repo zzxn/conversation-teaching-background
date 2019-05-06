@@ -6,20 +6,31 @@
   float: left;
 }
 
+#mainMenu {
+  float: right;
+  border: 0;
+  margin-left: 10px;
+}
+
 nz-header {
   padding-left: 0;
   padding-right: 0;
-}
-
-.big-padding {
-  padding-left: 50px;
-}
-
-.small-padding {
-  padding-left: 10px;
+  border-bottom: 1px solid rgb(235, 237, 240);
 }
 
 nz-page-header {
   border: 1px solid rgb(235, 237, 240);
+}
+
+#searchBox {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+#searchGroup {
+  display: inline-block;
+  min-width: 120px;
+  max-width: 720px;
+  width: calc(100vw - 640px);
 }
 

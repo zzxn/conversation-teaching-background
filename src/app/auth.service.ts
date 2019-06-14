@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, Observer} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,14 @@ export class AuthService {
     return localStorage.getItem('token') != null;
   }
 
+  getTokenHeaders(): HttpHeaders | undefined {
+    const token = localStorage.getItem('token');
+    return token === null ? new HttpHeaders({
+      'Authorization': 'Bearer ' + token
+    }) : undefined;
+  }
+
+
   login(username: string, password: string): Observable<string> {
     return Observable.create((observer: Observer<string>) => {
       this.http.post(this.loginApiUrl, {
@@ -31,6 +39,7 @@ export class AuthService {
         (tokenResponse: TokenResponse) => {
           console.log(tokenResponse);
           localStorage.setItem('token', tokenResponse.token);
+          localStorage.setItem('uuid', tokenResponse.uuid);
           observer.next(this.redirectUrl);
         },
         (error) => {
@@ -54,6 +63,7 @@ export class AuthService {
         (tokenResponse: TokenResponse) => {
           console.log(tokenResponse);
           localStorage.setItem('token', tokenResponse.token);
+          localStorage.setItem('uuid', tokenResponse.uuid);
           observer.next(this.redirectUrl);
         },
         (error) => {
@@ -74,5 +84,6 @@ export class AuthService {
 }
 
 class TokenResponse {
+  uuid: string;
   token: string;
 }

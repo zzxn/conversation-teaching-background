@@ -1,25 +1,24 @@
-<nz-spin
-  *ngIf="isLoading"
-  style="text-align: center; margin: 32px;"
-  [nzIndicator]="indicatorTemplate"
-  nzSimple></nz-spin>
-<ng-template #indicatorTemplate><i nz-icon type="loading" style="font-size: 48px;"></i></ng-template>
-
-<nz-layout *ngIf="!isLoading">
+<nz-layout>
   <nz-sider
     nzCollapsible
-    [(nzCollapsed)]="isCollapsed"
+    [(nzCollapsed)]="collapsed"
     [nzBreakpoint]="'sm'"
     [nzCollapsedWidth]="0"
     [nzZeroTrigger]="zeroTrigger"
   >
-    <ul nz-menu [nzMode]="'inline'" style="height:100%" [nzInlineCollapsed]="isCollapsed">
+    <ul nz-menu [nzMode]="'inline'" style="height:100%" [nzInlineCollapsed]="collapsed">
       <li nz-menu-item nzSelected><a routerLink="/mine/info"><i nz-icon nzType="info-circle"></i>基本信息</a></li>
       <li nz-menu-item><a routerLink="/mine/modify"><i nz-icon nzType="setting"></i>修改密码</a></li>
     </ul>
   </nz-sider>
   <nz-layout>
-    <nz-content style="background:#fff; padding: 32px; min-height: 280px;">
+    <nz-spin
+      *ngIf="loading"
+      style="text-align: center; margin: 32px;"
+      [nzIndicator]="indicatorTemplate"
+      nzSimple></nz-spin>
+    <ng-template #indicatorTemplate><i nz-icon type="loading" style="font-size: 48px;"></i></ng-template>
+    <nz-content style="background:#fff; padding: 32px; min-height: 280px;" *ngIf="!loading">
       <div>
         <nz-avatar [nzShape]="'square'" [nzSize]="64" [nzIcon]="'user'"></nz-avatar>
         <button nz-button [nzType]="'dashed'" style="margin-left: 16px; vertical-align: middle;">
@@ -27,38 +26,34 @@
         </button>
       </div>
       <div class="user-info">
-        <label class="user-info-label" for="id">ID: </label>
-        <input class="user-info-input" nz-input id="id" type="text" disabled [readOnly]="true" [value]="user.id" />
+        <label class="user-info-label" for="username">用户名: </label>
+        <input class="user-info-input" nz-input id="username" type="text" disabled [readOnly]="true"
+               [value]="user.username"/>
       </div>
       <div class="user-info">
-        <label class="user-info-label" for="name">姓名: </label>
-        <input class="user-info-input" nz-input id="name" type="text" [readOnly]="true" [value]="user.name" />
-        <button nz-button [nzType]="'dashed'" class="user-info-button">
+        <label class="user-info-label" for="nickname">昵称: </label>
+        <input #nickname class="user-info-input" nz-input id="nickname" type="text" [readOnly]="true"
+               [(ngModel)]="user.nickname"/>
+        <button #modifyNickname (click)="makeEditable(nickname, modifyNickname)" nz-button [nzType]="'dashed'"
+                class="user-info-button">
           <i nz-icon nzType="edit" nzTheme="outline"></i>编辑
         </button>
       </div>
       <div class="user-info">
-        <label class="user-info-label" for="sex">性别: </label>
-        <input class="user-info-input" nz-input id="sex" type="text" [readOnly]="true" [value]="user.sex" />
-        <button nz-button [nzType]="'dashed'" class="user-info-button">
+        <label class="user-info-label" for="email">邮箱: </label>
+        <input #email class="user-info-input" nz-input id="email" type="email" [readOnly]="true"
+               [(ngModel)]="user.email"/>
+        <button #modifyEmail (click)="makeEditable(email, modifyEmail)" nz-button [nzType]="'dashed'"
+                class="user-info-button">
           <i nz-icon nzType="edit" nzTheme="outline"></i>编辑
         </button>
       </div>
-      <div class="user-info">
-        <label class="user-info-label" for="org">机构: </label>
-        <input class="user-info-input" nz-input id="org" type="text" [readOnly]="true" [value]="user.organization" />
-        <button nz-button [nzType]="'dashed'" class="user-info-button">
-          <i nz-icon nzType="edit" nzTheme="outline"></i>编辑
-        </button>
-      </div>
-      <div class="user-info">
-        <label class="user-info-label" for="des">描述: </label>
-        <textarea class="user-info-textarea" nz-input id="des" [readOnly]="true" [value]="user.description"></textarea>
-        <button nz-button [nzType]="'dashed'" class="user-info-button">
-          <i nz-icon nzType="edit" nzTheme="outline"></i>编辑
-        </button>
-      </div>
-      <button nz-button nzType="primary" style="margin-top: 30px"><i nz-icon nzType="reload" nzTheme="outline"></i>应用更改</button>
+      <button (click)="applyModify()" nz-button [nzType]="applyButtonType"  style="margin-top: 30px">
+        <i nz-icon [nzType]="applyButtonIconType"
+           [spin]="applying"
+           nzTheme="outline"></i>
+        应用更改
+      </button>
     </nz-content>
   </nz-layout>
 </nz-layout>

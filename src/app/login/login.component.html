@@ -1,0 +1,15 @@
+<div>
+  <div>
+    <label for="username">Username</label>
+    <input type="text" #username id="username">
+  </div>
+  <div>
+    <label for="password">Password</label>
+    <input type="password" #password id="password">
+  </div>
+  <div>
+    <p>{{ errorMsg }}</p>
+  </div>
+  <button id="loginButton" (click)="login(username.value, password.value)">Login</button>
+  <a href="/register">Register</a>
+</div>

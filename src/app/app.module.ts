@@ -12,12 +12,15 @@ import {CourseManagementComponent} from './course-management/course-management.c
 import {MineComponent} from './mine/mine.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {AppRoutingModule} from './app-routing.module';
-import { CourseComponent } from './course/course.component';
-import { CourseChapterComponent } from './course-chapter/course-chapter.component';
-import { CourseStudentComponent } from './course-student/course-student.component';
-import { MineModifyComponent } from './mine-modify/mine-modify.component';
-import { StudentComponent } from './student/student.component';
-import { FixProgressDirective } from './fix-progress.directive';
+import {CourseComponent} from './course/course.component';
+import {CourseChapterComponent} from './course-chapter/course-chapter.component';
+import {CourseStudentComponent} from './course-student/course-student.component';
+import {MineModifyComponent} from './mine-modify/mine-modify.component';
+import {StudentComponent} from './student/student.component';
+import {FixProgressDirective} from './fix-progress.directive';
+import {LoginComponent} from './login/login.component';
+import {LoginGuard} from './login-guard';
+import { RegisterComponent } from './register/register.component';
 
 registerLocaleData(zh);
 
@@ -33,6 +36,8 @@ registerLocaleData(zh);
     MineModifyComponent,
     StudentComponent,
     FixProgressDirective,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +47,10 @@ registerLocaleData(zh);
     BrowserAnimationsModule,
     AppRoutingModule
   ],
-  providers: [{provide: NZ_I18N, useValue: zh_CN}],
+  providers: [
+    {provide: NZ_I18N, useValue: zh_CN},
+    LoginGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

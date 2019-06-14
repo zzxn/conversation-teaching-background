@@ -9,15 +9,52 @@ import {CourseChapterComponent} from './course-chapter/course-chapter.component'
 import {CourseStudentComponent} from './course-student/course-student.component';
 import {MineModifyComponent} from './mine-modify/mine-modify.component';
 import {StudentComponent} from './student/student.component';
+import {LoginComponent} from './login/login.component';
+import {LoginGuard} from './login-guard';
+import {RegisterComponent} from './register/register.component';
 
 const appRoutes: Routes = [
-  {path: 'course-management', component: CourseManagementComponent},
-  {path: 'mine/info', component: MineComponent},
-  {path: 'mine/modify', component: MineModifyComponent},
-  {path: 'course/:id/info', component: CourseComponent},
-  {path: 'course/:id/chapter', component: CourseChapterComponent},
-  {path: 'course/:id/student', component: CourseStudentComponent},
-  {path: 'course/:id/student/:student-id', component: StudentComponent},
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [LoginGuard]
+  },
+  {path: 'register', component: RegisterComponent},
+  {
+    path: 'course-management',
+    component: CourseManagementComponent,
+    canActivate: [LoginGuard],
+  },
+  {
+    path: 'mine/info',
+    component: MineComponent,
+    canActivate: [LoginGuard],
+  },
+  {
+    path: 'mine/modify',
+    component: MineModifyComponent,
+    canActivate: [LoginGuard],
+  },
+  {
+    path: 'course/:id/info',
+    component: CourseComponent,
+    canActivate: [LoginGuard],
+  },
+  {
+    path: 'course/:id/chapter',
+    component: CourseChapterComponent,
+    canActivate: [LoginGuard],
+  },
+  {
+    path: 'course/:id/student',
+    component: CourseStudentComponent,
+    canActivate: [LoginGuard],
+  },
+  {
+    path: 'course/:id/student/:student-id',
+    component: StudentComponent,
+    canActivate: [LoginGuard],
+  },
   {
     path: 'course/:id',
     redirectTo: '/course/:id/info',
@@ -31,7 +68,7 @@ const appRoutes: Routes = [
   {
     path: '',
     redirectTo: '/course-management',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {path: '**', component: PageNotFoundComponent}
 ];

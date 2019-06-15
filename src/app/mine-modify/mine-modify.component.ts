@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {UserService} from '../user.service';
-import {NzNotificationService} from 'ng-zorro-antd';
+import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-mine-modify',
@@ -19,7 +19,8 @@ export class MineModifyComponent {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private notification: NzNotificationService
+    private notification: NzNotificationService,
+    private modalService: NzModalService
   ) {
     this.validateForm = this.fb.group({
       oldPassword: ['', []],

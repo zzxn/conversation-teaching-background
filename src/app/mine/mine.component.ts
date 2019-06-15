@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {User} from '../user';
 import {UserService} from '../user.service';
 import {delay, timeout} from 'rxjs/operators';
-import {NzNotificationService, UploadFile, UploadXHRArgs} from 'ng-zorro-antd';
+import {NzModalService, NzNotificationService, UploadFile, UploadXHRArgs} from 'ng-zorro-antd';
 import {NzButtonComponent} from 'ng-zorro-antd';
 import {Observable, Observer, Subscription} from 'rxjs';
 import {until} from 'selenium-webdriver';
@@ -26,10 +26,12 @@ export class MineComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private notification: NzNotificationService) {
+    private notification: NzNotificationService,
+    private modalService: NzModalService) {
     this.notification.config({
       nzPlacement: 'bottomRight'
-    });
+    }
+    );
   }
 
   ngOnInit() {

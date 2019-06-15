@@ -3,6 +3,8 @@ import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 import {debounceTime, switchMap} from 'rxjs/operators';
 import {AuthService} from './auth.service';
 import {fromEvent} from 'rxjs';
+import {NzModalService} from 'ng-zorro-antd';
+import {UserService} from './user.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +14,12 @@ import {fromEvent} from 'rxjs';
 export class AppComponent implements OnInit {
   isCollapse = false;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private modalService: NzModalService,
+    private userService: UserService
+  ) {
   }
 
   ngOnInit() {
@@ -21,5 +28,13 @@ export class AppComponent implements OnInit {
       .subscribe((event) => {
         this.isCollapse = window.innerWidth < 576;
       });
+  }
+
+  confirmLogout() {
+    this.modalService.confirm({
+      nzTitle: '<i>确认登出吗？</i>',
+      nzContent: '<b>登出后会跳转到登录界面，需要重新登录</b>',
+      nzOnOk: () => this.userService.logoutAndRedirect()
+    });
   }
 }

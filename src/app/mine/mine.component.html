@@ -9,7 +9,6 @@
     <ul nz-menu [nzMode]="'inline'" style="height:100%" [nzInlineCollapsed]="collapsed">
       <li nz-menu-item nzSelected><a routerLink="/mine/info"><i nz-icon nzType="info-circle"></i>基本信息</a></li>
       <li nz-menu-item><a routerLink="/mine/modify"><i nz-icon nzType="setting"></i>修改密码</a></li>
-      <li nz-menu-item><a (click)="userService.logoutAndRedirect()"><i nz-icon nzType="logout"></i>登出</a></li>
     </ul>
   </nz-sider>
   <nz-layout>

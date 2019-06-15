@@ -51,6 +51,9 @@
                 <ng-container *ngIf="validateForm.get('password')?.hasError('short')">
                   密码长度至少为6
                 </ng-container>
+                <ng-container *ngIf="validateForm.get('password')?.hasError('long')">
+                  密码长度不能超过20
+                </ng-container>
                 <ng-container *ngIf="validateForm.get('password')?.hasError('onlyNumber')">
                   密码不能仅包含数字
                 </ng-container>

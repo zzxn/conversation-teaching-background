@@ -104,10 +104,12 @@ export class MineModifyComponent {
   };
 
   passwordValidator = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.valid) {
+    if (!control.value) {
       return {required: true};
     } else if (control.value.toString().length < 6) {
       return {short: true};
+    } else if (control.value.toString().length > 20) {
+      return {long: true};
     } else if (/^[0-9]+$/.test(control.value.toString())) {
       return {onlyNumber: true};
     }

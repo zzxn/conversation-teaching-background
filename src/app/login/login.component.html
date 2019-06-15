@@ -1,15 +1,61 @@
-<div>
-  <div>
-    <label for="username">Username</label>
-    <input type="text" #username id="username">
-  </div>
-  <div>
-    <label for="password">Password</label>
-    <input type="password" #password id="password">
-  </div>
-  <div>
-    <p>{{ errorMsg }}</p>
-  </div>
-  <button id="loginButton" (click)="login(username.value, password.value)">Login</button>
-  <a href="/register">Register</a>
-</div>
+<form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+  <h2 class="login-head">登录</h2>
+  <nz-form-item>
+    <nz-form-control>
+      <nz-input-group [nzPrefix]="prefixUser">
+        <input type="text" nz-input formControlName="username" placeholder="用户名" />
+      </nz-input-group>
+      <nz-form-explain
+        *ngIf="validateForm.get('username')?.dirty"
+      >
+        <ng-container *ngIf="validateForm.get('username')?.hasError('required')">
+          请输入用户名
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('username')?.hasError('short')">
+          用户名长度至少为4
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('username')?.hasError('long')">
+          用户名长度不能超过20
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('username')?.hasError('invalid')">
+          用户名仅由字母数字组成，且以字母开头
+        </ng-container>
+      </nz-form-explain
+      >
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <nz-input-group [nzPrefix]="prefixLock">
+        <input type="password" nz-input formControlName="password" placeholder="密码" />
+      </nz-input-group>
+      <nz-form-explain
+        *ngIf="validateForm.get('password')?.dirty"
+      >
+        <ng-container *ngIf="validateForm.get('password')?.hasError('required')">
+          请输入密码
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('password')?.hasError('short')">
+          密码长度至少为6
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('password')?.hasError('long')">
+          密码长度不能超过20
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('password')?.hasError('onlyNumber')">
+          密码不能仅包含数字
+        </ng-container>
+      </nz-form-explain
+      >
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <nz-alert *ngIf="errorMsg" nzShowIcon nzType="error" [nzMessage]="errorMsg"></nz-alert>
+      <button [disabled]="!validateForm.valid" nz-button class="login-form-button" [nzType]="'primary'">登录</button>
+      还没有账号？
+      <a href="">立即注册</a>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+<ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+<ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>

@@ -45,6 +45,10 @@ export class MineComponent implements OnInit {
           this.loading = false;
         },
         (msg: string) => {
+          this.modalService.error({
+            nzTitle: '<i>网络异常或服务器错误</i>',
+            nzContent: '<b>请刷新重试或尝试重新登录</b>'
+          });
           console.log(msg);
         }
       );

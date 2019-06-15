@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {User} from '../user';
 import {UserService} from '../user.service';
 import {delay, timeout} from 'rxjs/operators';
-import {NzNotificationService} from 'ng-zorro-antd';
+import {NzNotificationService, UploadFile, UploadXHRArgs} from 'ng-zorro-antd';
 import {NzButtonComponent} from 'ng-zorro-antd';
+import {Observable, Observer, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-mine',
@@ -18,8 +19,11 @@ export class MineComponent implements OnInit {
   applyFinish = true;
   applyButtonIconType = 'reload';
   applyButtonType = 'primary';
+  avatarLoading = false;
 
-  constructor(private userService: UserService, private notification: NzNotificationService) {
+  constructor(
+    private userService: UserService,
+    private notification: NzNotificationService) {
     this.notification.config({
       nzPlacement: 'bottomRight'
     });
@@ -31,6 +35,7 @@ export class MineComponent implements OnInit {
       .subscribe(
         (user: User) => {
           this.user = user;
+          console.log(user);
           this.loading = false;
         },
         (msg: string) => {
@@ -74,10 +79,91 @@ export class MineComponent implements OnInit {
       );
   }
 
+  validateNickname(nickname: string) {
+    return nickname.length <= 20;
+  }
+
+  validateEmail(email: string) {
+    const reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,})$/;
+    return reg.test(email);
+  }
+
   makeEditable(inputElement: HTMLInputElement, buttonElement: NzButtonComponent) {
     // we must do it in setTimeout() because of the limitation of Angular
     inputElement.readOnly = false;
     inputElement.focus();
     buttonElement.el.hidden = true;
+  }
+
+  beforeUpload = (file: File) => {
+    return new Observable((observer: Observer<boolean>) => {
+      console.log(file.name);
+      const isJPG = file.type === 'image/jpeg';
+      if (!isJPG) {
+        this.notification.error('You can only upload JPG file!', '');
+        observer.complete();
+        return;
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.notification.error('Image must smaller than 2MB!', '');
+        observer.complete();
+        return;
+      }
+      // check height
+      this.checkImageDimension(file).then(dimensionRes => {
+        if (!dimensionRes) {
+          this.notification.error('Image only 300x300 above', '');
+          observer.complete();
+          return;
+        }
+
+        observer.next(isJPG && isLt2M && dimensionRes);
+        observer.complete();
+      });
+    });
+  };
+
+  private random(): number {
+    return Math.random();
+  }
+
+  private getBase64(img: File, callback: (img: string) => void): void {
+    const reader = new FileReader();
+    // tslint:disable-next-line:no-non-null-assertion
+    reader.addEventListener('load', () => callback(reader.result!.toString()));
+    reader.readAsDataURL(img);
+  }
+
+  private checkImageDimension(file: File): Promise<boolean> {
+    return new Promise(resolve => {
+      const img = new Image(); // create image
+      img.src = window.URL.createObjectURL(file);
+      img.onload = () => {
+        const width = img.naturalWidth;
+        const height = img.naturalHeight;
+        // tslint:disable-next-line:no-non-null-assertion
+        window.URL.revokeObjectURL(img.src!);
+        resolve(width === height && width >= 300);
+      };
+    });
+  }
+
+  handleChange(info: { file: UploadFile }): void {
+    switch (info.file.status) {
+      case 'uploading':
+        this.avatarLoading = true;
+        break;
+      case 'done':
+        // Get this url from response in real world.
+        this.avatarLoading = false;
+        this.user.headSculpture = 'http://adweb-image.oss-cn-shanghai.aliyuncs.com/' + this.user.uuid + '.jpg';
+        this.notification.success('成功上传头像', '头像修改成功，已经生效');
+        break;
+      case 'error':
+        this.notification.error('网络异常', '网络异常或服务器出错');
+        this.avatarLoading = false;
+        break;
+    }
   }
 }

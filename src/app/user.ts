@@ -1,7 +1,7 @@
 export class User {
   uuid: string;
   username: string;
-  head_sculpture: string;
+  headSculpture: string;
   email: string;
   sex: boolean;
   number: string;

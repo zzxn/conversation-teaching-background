@@ -19,41 +19,82 @@
       nzSimple></nz-spin>
     <ng-template #indicatorTemplate><i nz-icon type="loading" style="font-size: 48px;"></i></ng-template>
     <nz-content style="background:#fff; padding: 32px; min-height: 280px;" *ngIf="!loading">
-      <div>
-        <nz-avatar [nzShape]="'square'" [nzSize]="64" [nzIcon]="'user'"></nz-avatar>
-        <button nz-button [nzType]="'dashed'" style="margin-left: 16px; vertical-align: middle;">
-          <i nz-icon nzType="upload" nzTheme="outline"></i>更换
-        </button>
-      </div>
-      <div class="user-info">
-        <label class="user-info-label" for="username">用户名: </label>
-        <input class="user-info-input" nz-input id="username" type="text" disabled [readOnly]="true"
-               [value]="user.username"/>
-      </div>
-      <div class="user-info">
-        <label class="user-info-label" for="nickname">昵称: </label>
-        <input #nickname class="user-info-input" nz-input id="nickname" type="text" [readOnly]="true"
-               [(ngModel)]="user.nickname"/>
-        <button #modifyNickname (click)="makeEditable(nickname, modifyNickname)" nz-button [nzType]="'dashed'"
-                class="user-info-button">
-          <i nz-icon nzType="edit" nzTheme="outline"></i>编辑
-        </button>
-      </div>
-      <div class="user-info">
-        <label class="user-info-label" for="email">邮箱: </label>
-        <input #email class="user-info-input" nz-input id="email" type="email" [readOnly]="true"
-               [(ngModel)]="user.email"/>
-        <button #modifyEmail (click)="makeEditable(email, modifyEmail)" nz-button [nzType]="'dashed'"
-                class="user-info-button">
-          <i nz-icon nzType="edit" nzTheme="outline"></i>编辑
-        </button>
-      </div>
-      <button (click)="applyModify()" nz-button [nzType]="applyButtonType"  style="margin-top: 30px">
-        <i nz-icon [nzType]="applyButtonIconType"
-           [spin]="applying"
-           nzTheme="outline"></i>
-        应用更改
-      </button>
+      <form nz-form>
+
+        <nz-form-item>
+          <nz-form-control nzOffset="2" [nzSm]="8" [nzXs]="24">
+            <nz-upload
+              class="avatar-uploader"
+              [nzAction]="'http://localhost:8080/upload-avatar/' + this.user.uuid"
+              nzName="avatar"
+              nzListType="picture-card"
+              [nzShowUploadList]="false"
+              [nzBeforeUpload]="beforeUpload"
+              (nzChange)="handleChange($event)"
+            >
+              <ng-container *ngIf="!this.user.headSculpture">
+                <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
+                <div class="ant-upload-text">Upload</div>
+              </ng-container>
+              <img style="width: 87px" *ngIf="this.user.headSculpture" [src]="this.user.headSculpture + '?s=' + random()" class="avatar" />
+            </nz-upload>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzRequired [nzSm]="2" [nzXs]="24" nzFor="username">用户名</nz-form-label>
+          <nz-form-control [nzSm]="8" [nzXs]="24">
+            <input nz-input id="username" name="username" type="text" disabled [readOnly]="true"
+                   [(ngModel)]="user.username"/>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="2" [nzXs]="24" nzFor="nickname">昵称</nz-form-label>
+          <nz-form-control [nzValidateStatus]="validateNickname(nickname.value) ? 'success' : 'error'" [nzSm]="12" [nzXs]="24">
+            <div nz-row [nzGutter]="8">
+              <div nz-col [nzSpan]="16">
+                <input #nickname nz-input id="nickname" name="nickname" type="text" [readOnly]="true"
+                       [(ngModel)]="user.nickname"/>
+                <nz-form-explain *ngIf="!validateNickname(nickname.value)">昵称不应超过20个字符</nz-form-explain>
+              </div>
+              <div nz-col [nzSpan]="4">
+                <button #modifyNickname (click)="makeEditable(nickname, modifyNickname)" nz-button [nzType]="'dashed'">
+                  <i nz-icon nzType="edit" nzTheme="outline"></i>编辑
+                </button>
+              </div>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzRequired [nzSm]="2" [nzXs]="24" nzFor="email">邮箱</nz-form-label>
+          <nz-form-control [nzValidateStatus]="validateEmail(email.value) ? 'success' : 'error'" [nzSm]="12" [nzXs]="24">
+            <div nz-row [nzGutter]="8">
+              <div nz-col [nzSpan]="16">
+                <input #email nz-input id="email" name="email" type="email" [readOnly]="true"
+                       [(ngModel)]="user.email"/>
+                <nz-form-explain *ngIf="!validateEmail(email.value)">邮箱格式错误</nz-form-explain>
+              </div>
+              <div nz-col [nzSpan]="4">
+                <button #modifyEmail (click)="makeEditable(email, modifyEmail)" nz-button [nzType]="'dashed'">
+                  <i nz-icon nzType="edit" nzTheme="outline"></i>编辑
+                </button>
+              </div>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzOffset]="2">
+            <button (click)="applyModify()" nz-button [nzType]="applyButtonType" style="margin-top: 30px">
+              <i nz-icon [nzType]="applyButtonIconType"
+                 [spin]="applying"
+                 nzTheme="outline"></i>
+              应用更改
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
     </nz-content>
   </nz-layout>
 </nz-layout>

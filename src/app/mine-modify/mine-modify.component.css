@@ -1,12 +1,1 @@
-.user-info-label {
-  display: inline-block;
-  width: 80px;
-  font-weight: bold;
-}
 
-.user-info-input {
-  max-width: 360px;
-  width: calc(100vw - 120px);
-  margin-right: 20px;
-  margin-top: 40px;
-}

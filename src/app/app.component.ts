@@ -1,20 +1,25 @@
 import {Component, DoCheck, OnInit, OnDestroy} from '@angular/core';
 import {Router, ActivatedRoute, ParamMap} from '@angular/router';
-import {switchMap} from 'rxjs/operators';
+import {debounceTime, switchMap} from 'rxjs/operators';
 import {AuthService} from './auth.service';
+import {fromEvent} from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements DoCheck {
+export class AppComponent implements OnInit {
   isCollapse = false;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
-  ngDoCheck() {
-    this.isCollapse = window.innerWidth < 576;
+  ngOnInit() {
+    fromEvent(window, 'resize')
+      .pipe(debounceTime(10))
+      .subscribe((event) => {
+        this.isCollapse = window.innerWidth < 576;
+      });
   }
 }

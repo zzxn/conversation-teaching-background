@@ -1,22 +1,23 @@
 <nz-layout class="layout">
   <nz-header>
-    <div *ngIf="!isCollapse" class="logo"></div>
-    <nz-input-group id="searchGroup" [nzSuffix]="suffixIconSearch">
-      <label style="display: none">搜索课程/学生：</label>
-      <input id="searchBox" nzSize="large" type="search" nz-input placeholder="搜索课程" />
-      <ng-template #suffixIconSearch>
-        <i nz-icon type="search"></i>
-      </ng-template>
-    </nz-input-group>
+    <img *ngIf="!isCollapse" class="logo" src="http://adweb-image.oss-cn-shanghai.aliyuncs.com/logo-with-word.png">
+    <img *ngIf="isCollapse" class="logo" src="http://adweb-image.oss-cn-shanghai.aliyuncs.com/logo.png">
+<!--    <nz-input-group id="searchGroup" [nzSuffix]="suffixIconSearch">-->
+<!--      <label style="display: none">搜索课程/学生：</label>-->
+<!--      <input *ngIf="false" id="searchBox" nzSize="large" type="search" nz-input placeholder="搜索课程" />-->
+<!--      <ng-template *ngIf="false" #suffixIconSearch>-->
+<!--        <i nz-icon type="search"></i>-->
+<!--      </ng-template>-->
+<!--    </nz-input-group>-->
     <ul
       *ngIf="this.authService.hasLogin()"
       id="mainMenu"
       nz-menu [nzMode]="'horizontal'"
-      [nzSelectable]="false"
+
       style="line-height: 62px;"
     >
-      <li nz-menu-item><a routerLink="/course-management"><i nz-icon nzType="book"></i>课程管理</a></li>
-      <li nz-menu-item><a routerLink="/mine"><i nz-icon nzType="user"></i>我的</a></li>
+      <li nz-menu-item [nzSelected] = "this.router.url.startsWith('/course')"><a routerLink="/course-management"><i nz-icon nzType="book"></i>课程管理</a></li>
+      <li nz-menu-item [nzSelected] = "this.router.url.startsWith('/mine')"><a routerLink="/mine"><i nz-icon nzType="user"></i>我的</a></li>
     </ul>
   </nz-header>
   <router-outlet></router-outlet>

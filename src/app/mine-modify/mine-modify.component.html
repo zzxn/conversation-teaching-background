@@ -13,19 +13,74 @@
   </nz-sider>
   <nz-layout>
     <nz-content style="background:#fff; padding: 32px; min-height: 280px;">
-      <div class="user-info">
-        <label class="user-info-label" for="oldPassword">旧密码: </label>
-        <input class="user-info-input" nz-input id="oldPassword" type="password" />
-      </div>
-      <div class="user-info">
-        <label class="user-info-label" for="newPassword1">新密码: </label>
-        <input class="user-info-input" nz-input id="newPassword1" type="password" />
-      </div>
-      <div class="user-info">
-        <label class="user-info-label" for="newPassword2">重复新密码: </label>
-        <input class="user-info-input" nz-input id="newPassword2" type="password" />
-      </div>
-      <button nz-button nzType="danger" style="margin-top: 30px"><i nz-icon nzType="reload" nzTheme="outline"></i>更改密码</button>
+      <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm($event, validateForm.value)">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="3" nzRequired>旧密码</nz-form-label>
+          <div>
+            <nz-form-control [nzSpan]="6" nzHasFeedback>
+              <input nz-input type="password" formControlName="oldPassword" (ngModelChange)="validateOldPassword()"/>
+              <nz-form-explain
+                *ngIf="validateForm.get('oldPassword')?.dirty"
+              >
+                <ng-container *ngIf="validateForm.get('oldPassword')?.hasError('required')">
+                  请输入新密码
+                </ng-container>
+                <ng-container *ngIf="validateForm.get('oldPassword')?.hasError('wrong')">
+                  密码错误
+                </ng-container>
+                <ng-container *ngIf="validateForm.get('oldPassword')?.hasError('netError')">
+                  网络异常，无法验证，请尝试修复网络或重新登录
+                </ng-container>
+              </nz-form-explain
+              >
+            </nz-form-control>
+          </div>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="3" nzRequired>新密码</nz-form-label>
+          <div>
+            <nz-form-control [nzSpan]="6" nzHasFeedback>
+              <input nz-input type="password" formControlName="password" (ngModelChange)="validateConfirmPassword()"/>
+              <nz-form-explain
+                *ngIf="validateForm.get('password')?.dirty"
+              >
+                <ng-container *ngIf="validateForm.get('password')?.hasError('required')">
+                  请输入新密码
+                </ng-container>
+                <ng-container *ngIf="validateForm.get('password')?.hasError('short')">
+                  密码长度至少为6
+                </ng-container>
+                <ng-container *ngIf="validateForm.get('password')?.hasError('onlyNumber')">
+                  密码不能仅包含数字
+                </ng-container>
+              </nz-form-explain
+              >
+            </nz-form-control>
+          </div>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="3" nzRequired>重复新密码</nz-form-label>
+          <nz-form-control [nzSpan]="6" nzHasFeedback>
+            <input nz-input type="password" formControlName="confirm"/>
+            <nz-form-explain *ngIf="validateForm.get('confirm')?.dirty && validateForm.get('confirm')?.errors">
+              <ng-container *ngIf="validateForm.get('confirm')?.hasError('required')">
+                请重复输入新密码
+              </ng-container>
+              <ng-container *ngIf="validateForm.get('confirm')?.hasError('confirm')">
+                两次输入密码不一致
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzOffset]="3" [nzSpan]="8">
+            <button nz-button [nzType]="applyButtonType" [disabled]="!validateForm.valid" style="margin-top: 30px">
+              <i nz-icon [nzType]="applyButtonIconType"
+                 [spin]="applying" nzTheme="outline"></i>更改密码
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
     </nz-content>
   </nz-layout>
 </nz-layout>

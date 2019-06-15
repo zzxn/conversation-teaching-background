@@ -65,7 +65,7 @@ export class MineComponent implements OnInit {
           }, 2000);
         },
         (errorMsg) => {
-          this.notification.error('应用更改失败', '网络原因或服务器内部错误，请重新尝试或者登出后重新登录');
+          this.notification.error('应用更改失败', '网络原因或服务器内部错误，请修复网络后重试或重新登录');
           console.log(errorMsg);
           this.applying = false;
           this.applyButtonIconType = 'close-circle';

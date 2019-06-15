@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, Observer} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {timeout} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -47,10 +48,10 @@ export class AuthService {
             observer.error('用户名或密码错误');
           }
           console.log(error);
-          return observer.error('未知错误');
+          observer.error('未知错误');
         }
       );
-    });
+    }).pipe(timeout(3000));
   }
 
   register(username: string, password: string, email: string): Observable<string> {

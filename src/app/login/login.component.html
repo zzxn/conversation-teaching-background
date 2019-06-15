@@ -51,7 +51,9 @@
   <nz-form-item>
     <nz-form-control>
       <nz-alert *ngIf="errorMsg" nzShowIcon nzType="error" [nzMessage]="errorMsg"></nz-alert>
-      <button [disabled]="!validateForm.valid" nz-button class="login-form-button" [nzType]="'primary'">登录</button>
+      <button [disabled]="!validateForm.valid && !logging" nz-button class="login-form-button" [nzType]="'primary'">
+        <i nz-icon type="reload" [spin]="true" *ngIf="logging"></i>登录
+      </button>
       还没有账号？
       <a href="">立即注册</a>
     </nz-form-control>

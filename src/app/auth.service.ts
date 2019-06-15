@@ -75,7 +75,7 @@ export class AuthService {
           return observer.error('未知错误');
         }
       );
-    });
+    }).pipe(timeout(3000));
   }
 
   logout() {

@@ -23,11 +23,9 @@ export class AuthService {
     return localStorage.getItem('token') != null;
   }
 
-  getTokenHeaders(): HttpHeaders | undefined {
+  getToken() {
     const token = localStorage.getItem('token');
-    return token === null ? new HttpHeaders({
-      'Authorization': 'Bearer ' + token
-    }) : undefined;
+    return token ? token : undefined;
   }
 
 

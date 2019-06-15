@@ -21,7 +21,11 @@ export class UserService {
         observer.error('未登录');
       });
     }
-    return this.http.get<User>('http://localhost:8080/user/' + uuid).pipe(
+    return this.http.get<User>('http://localhost:8080/user/' + uuid, {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    }).pipe(
       delay(300),
       timeout(5000)
     );
@@ -34,7 +38,11 @@ export class UserService {
         observer.error('未登录');
       });
     }
-    return this.http.put('http://localhost:8080/user/' + uuid, user).pipe(
+    return this.http.put('http://localhost:8080/user/' + uuid, user, {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    }).pipe(
       delay(300),
       timeout(5000)
     );
@@ -48,7 +56,10 @@ export class UserService {
       });
     }
     return this.http.post('http://localhost:8080/update-password/' + uuid, null, {
-      params: {'password': password}
+      params: {'password': password},
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
     }).pipe(
       delay(300),
       timeout(5000)
@@ -63,7 +74,10 @@ export class UserService {
       });
     }
     return this.http.post('http://localhost:8080/validate-password/' + uuid, null, {
-      params: {'password': password}
+      params: {'password': password},
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
     }).pipe(
       timeout(1000)
     );

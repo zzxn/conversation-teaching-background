@@ -1,6 +1,7 @@
 import {Component, DoCheck, OnInit, OnDestroy} from '@angular/core';
 import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
+import {AuthService} from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import {switchMap} from 'rxjs/operators';
 export class AppComponent implements DoCheck {
   isCollapse = false;
 
-  constructor() {
+  constructor(private authService: AuthService) {
   }
 
   ngDoCheck() {

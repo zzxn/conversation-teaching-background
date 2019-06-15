@@ -5,6 +5,8 @@ import {delay, timeout} from 'rxjs/operators';
 import {NzNotificationService, UploadFile, UploadXHRArgs} from 'ng-zorro-antd';
 import {NzButtonComponent} from 'ng-zorro-antd';
 import {Observable, Observer, Subscription} from 'rxjs';
+import {until} from 'selenium-webdriver';
+import urlContains = until.urlContains;
 
 @Component({
   selector: 'app-mine',
@@ -20,6 +22,7 @@ export class MineComponent implements OnInit {
   applyButtonIconType = 'reload';
   applyButtonType = 'primary';
   avatarLoading = false;
+  avatarUrl: string;
 
   constructor(
     private userService: UserService,
@@ -35,6 +38,7 @@ export class MineComponent implements OnInit {
       .subscribe(
         (user: User) => {
           this.user = user;
+          this.avatarUrl = user.headSculpture + '?s=' + Math.random();
           console.log(user);
           this.loading = false;
         },
@@ -124,17 +128,6 @@ export class MineComponent implements OnInit {
     });
   };
 
-  private random(): number {
-    return Math.random();
-  }
-
-  private getBase64(img: File, callback: (img: string) => void): void {
-    const reader = new FileReader();
-    // tslint:disable-next-line:no-non-null-assertion
-    reader.addEventListener('load', () => callback(reader.result!.toString()));
-    reader.readAsDataURL(img);
-  }
-
   private checkImageDimension(file: File): Promise<boolean> {
     return new Promise(resolve => {
       const img = new Image(); // create image
@@ -158,6 +151,7 @@ export class MineComponent implements OnInit {
         // Get this url from response in real world.
         this.avatarLoading = false;
         this.user.headSculpture = 'http://adweb-image.oss-cn-shanghai.aliyuncs.com/' + this.user.uuid + '.jpg';
+        this.avatarUrl = this.user.headSculpture + '?s=' + Math.random();
         this.notification.success('成功上传头像', '头像修改成功，已经生效');
         break;
       case 'error':

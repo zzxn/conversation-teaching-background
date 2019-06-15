@@ -9,6 +9,7 @@
       </ng-template>
     </nz-input-group>
     <ul
+      *ngIf="this.authService.hasLogin()"
       id="mainMenu"
       nz-menu [nzMode]="'horizontal'"
       [nzSelectable]="false"

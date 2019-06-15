@@ -37,7 +37,7 @@
                 <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
                 <div class="ant-upload-text">Upload</div>
               </ng-container>
-              <img style="width: 87px" *ngIf="this.user.headSculpture" [src]="this.user.headSculpture + '?s=' + random()" class="avatar" />
+              <img style="width: 87px" *ngIf="this.user.headSculpture" [src]="avatarUrl" class="avatar" />
             </nz-upload>
           </nz-form-control>
         </nz-form-item>

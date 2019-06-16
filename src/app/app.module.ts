@@ -20,8 +20,8 @@ import {StudentComponent} from './student/student.component';
 import {FixProgressDirective} from './fix-progress.directive';
 import {LoginComponent} from './login/login.component';
 import {LoginGuard} from './login-guard';
-import { RegisterComponent } from './register/register.component';
-import { ChapterEditorComponent } from './chapter-editor/chapter-editor.component';
+import {RegisterComponent} from './register/register.component';
+import {ChapterEditorComponent} from './chapter-editor/chapter-editor.component';
 
 registerLocaleData(zh);
 

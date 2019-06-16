@@ -43,10 +43,10 @@ export class AuthService {
         },
         (error) => {
           if (error.hasOwnProperty('error') && error.error.code === 'auth:bad-name-pass') {
-            observer.error('用户名或密码错误');
+              observer.error('用户名或密码错误');
           }
           console.log(error);
-          observer.error('未知错误');
+          observer.error('网络异常');
         }
       );
     }).pipe(timeout(3000));
@@ -67,10 +67,10 @@ export class AuthService {
         },
         (error) => {
           if (error.hasOwnProperty('error') && error.error.code === 'auth:dup-name') {
-            observer.error('用户名重复');
+              observer.error('用户名重复');
           }
           console.log(error);
-          return observer.error('未知错误');
+          observer.error('网络异常');
         }
       );
     }).pipe(timeout(3000));

@@ -1,0 +1,67 @@
+<nz-collapse [nzBordered]="false">
+  <nz-collapse-panel
+    #p
+    [nzHeader]="chapter.name"
+    [nzExtra]="chapterDeleteButton"
+    class="chapter-entry"
+  >
+    <ng-template #chapterDeleteButton>
+      <button (click)="deleteThisChapter($event)" nz-button nzType="danger" nzShape="circle" style="position: relative; bottom: 4px">
+        <i nz-icon nzType="delete"></i>
+      </button>
+    </ng-template>
+    <nz-layout class="message-list-layout">
+      <nz-list>
+        <nz-list-item class="message-entry" *ngFor="let message of chapter.messages; let i = index;">
+          <span class="message-index">{{i}}&nbsp;&nbsp;<i nz-icon nzType="caret-right" nzTheme="outline"></i>&nbsp;&nbsp;</span>{{message}}
+        </nz-list-item>
+      </nz-list>
+    </nz-layout>
+    <div class="input-line">
+      <label style="display: none;">输入新消息内容：</label>
+      <input *ngIf="messageType === 'plain'" placeholder="请输入新消息内容" class="new-message-input" nz-input type="text"/>
+      <input *ngIf="messageType === 'question'" placeholder="请输入问题，并在下方编辑答案" class="new-message-input" nz-input type="text"/>
+      <button
+        (click)="addMessage()"
+        class="add-message-button"
+        nz-button nzType="primary"
+        nzShape="circle"
+        nzSize="large">
+        <i nz-icon [nzType]="messageType === 'plain' ? 'plus' : 'question'"></i>
+      </button>
+      <button
+        (click)="switchMessageType()"
+        class="add-message-button"
+        nz-button nzType="default"
+        nzShape="circle"
+        nzSize="large">
+        <i nz-icon nzType="swap"></i>
+      </button>
+    </div>
+    <div class="input-line" *ngIf="messageType === 'question'">
+      <label>正确答案：</label>
+      <nz-radio-group class="answer-line">
+        <label nz-radio nzValue="A">A</label>
+        <label nz-radio nzValue="B">B</label>
+        <label nz-radio nzValue="C">C</label>
+        <label nz-radio nzValue="D">D</label>
+      </nz-radio-group>
+      <nz-input-group nzAddOnBefore="A" class="answer-line">
+        <input type="text" nz-input />
+      </nz-input-group>
+      <nz-input-group nzAddOnBefore="B" class="answer-line">
+        <input type="text" nz-input />
+      </nz-input-group>
+      <nz-input-group nzAddOnBefore="C" class="answer-line">
+        <input type="text" nz-input />
+      </nz-input-group>
+      <nz-input-group nzAddOnBefore="D" class="answer-line">
+        <input type="text" nz-input />
+      </nz-input-group>
+    </div>
+    <ng-template let-active>
+      {{ active }}
+      <i nz-icon type="caret-right" class="ant-collapse-arrow" [nzRotate]="p.nzActive ? 90 : -90"></i>
+    </ng-template>
+  </nz-collapse-panel>
+</nz-collapse>

@@ -21,6 +21,7 @@ import {FixProgressDirective} from './fix-progress.directive';
 import {LoginComponent} from './login/login.component';
 import {LoginGuard} from './login-guard';
 import { RegisterComponent } from './register/register.component';
+import { ChapterEditorComponent } from './chapter-editor/chapter-editor.component';
 
 registerLocaleData(zh);
 
@@ -38,6 +39,7 @@ registerLocaleData(zh);
     FixProgressDirective,
     LoginComponent,
     RegisterComponent,
+    ChapterEditorComponent,
   ],
   imports: [
     BrowserModule,

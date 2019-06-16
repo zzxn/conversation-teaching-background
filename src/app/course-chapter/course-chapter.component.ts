@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
+import {Chapter} from '../chapter';
+import {NzModalService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-course',
@@ -204,6 +206,7 @@ export class CourseChapterComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private modalService: NzModalService,
     private router: Router
   ) {
   }
@@ -212,4 +215,18 @@ export class CourseChapterComponent implements OnInit {
     this.id = +this.route.snapshot.paramMap.get('id');
   }
 
+  deleteChapter(chapter: Chapter) {
+    this.modalService.confirm({
+      nzTitle: '确定删除这个章节吗？',
+      nzContent: '<b style="color: red;">所有消息和问题都会一同删除，且不可恢复</b>',
+      nzOkText: '仍要删除',
+      nzOkType: 'danger',
+      nzOnOk: () => {
+        this.chapters.splice(
+          this.chapters.findIndex((c) => c.id === chapter.id), 1
+        );
+      },
+      nzCancelText: '我再想想',
+    });
+  }
 }

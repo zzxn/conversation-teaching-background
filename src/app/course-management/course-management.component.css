@@ -28,3 +28,15 @@
   min-height: calc(100vh - 64px);
 }
 
+.input-line {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.new-course-input {
+  width: calc(100% - 160px);
+  max-width: 330px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+

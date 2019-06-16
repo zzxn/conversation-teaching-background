@@ -1,1 +1,10 @@
+.input-line {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
 
+.new-chapter-input {
+  width: calc(100% - 100px);
+  max-width: 640px;
+  margin-right: 10px;
+}

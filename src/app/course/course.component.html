@@ -14,6 +14,7 @@
     [nzZeroTrigger]="zeroTrigger"
   >
     <ul nz-menu [nzMode]="'inline'" style="height:100%" [nzInlineCollapsed]="isCollapsed">
+      <li nz-menu-item><a routerLink="/course-management"><i nz-icon type="rollback"></i>返回课程列表</a></li>
       <li nz-menu-item nzSelected><a routerLink="/course/{{id}}/info"><i nz-icon type="info-circle"></i>基本信息</a></li>
       <li nz-menu-item><a routerLink="/course/{{id}}/chapter"><i nz-icon type="profile"></i>所有章节</a></li>
       <li nz-menu-item><a routerLink="/course/{{id}}/student"><i nz-icon type="team"></i>选课学生</a></li>

@@ -26,9 +26,60 @@
       nzSubtitle="课程管理 > {{ course.name }}：基本信息">
     </nz-page-header>
     <nz-content class="course-info" style="background:#fff; padding: 32px; min-height: 280px;">
-      <p><b>课程id：</b>{{course.id}}</p>
-      <p><b>课程描述：</b>{{course.description}}</p>
-      <p><b>选课人数：</b><nz-badge [nzNoAnimation]="true" [nzStyle]="{ backgroundColor: '#52c41a' }" [nzCount]="course.select_num"></nz-badge></p>
+      <form nz-form>
+
+        <nz-form-item>
+          <nz-form-label nzRequired [nzSm]="4" [nzXs]="24" nzFor="courseId">课程id</nz-form-label>
+          <nz-form-control [nzSm]="4" [nzXs]="24">
+            <input nz-input id="courseId" name="courseId" type="text" disabled [readOnly]="true"
+                   [(ngModel)]="course.id"/>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzRequired [nzSm]="4" [nzXs]="24" nzFor="courseName">课程名</nz-form-label>
+          <nz-form-control [nzSm]="20" [nzXs]="24">
+            <div nz-row [nzGutter]="8">
+              <div nz-col [nzSpan]="16">
+                <input #courseName nz-input id="courseName" name="courseName" type="text" [readOnly]="true"
+                       [(ngModel)]="course.name"/>
+              </div>
+              <div nz-col [nzSpan]="4">
+                <button #modifyCourseName (click)="0" nz-button [nzType]="'dashed'">
+                  <i nz-icon nzType="edit" nzTheme="outline"></i>编辑
+                </button>
+              </div>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="description">课程描述</nz-form-label>
+          <nz-form-control [nzSm]="20" [nzXs]="24">
+            <div nz-row [nzGutter]="8">
+              <div nz-col [nzSpan]="16">
+                <textarea #description nz-input id="description" name="description" type="text" [readOnly]="true"
+                          [(ngModel)]="course.description" placeholder="在这里输入课程描述"
+                          [nzAutosize]="{ minRows: 2, maxRows: 6 }" ngModel>
+                </textarea>
+              </div>
+              <div nz-col [nzSpan]="4">
+                <button #modifyDescription (click)="0" nz-button [nzType]="'dashed'">
+                  <i nz-icon nzType="edit" nzTheme="outline"></i>编辑
+                </button>
+              </div>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzOffset]="4">
+            <button (click)="0" nz-button [nzType]="'primary'" style="margin-top: 30px">
+              <i nz-icon [nzType]="'reload'"></i>
+              应用更改
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
     </nz-content>
   </nz-layout>
 </nz-layout>

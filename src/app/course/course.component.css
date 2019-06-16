@@ -1,3 +1,11 @@
 .course-info {
   font-size: 20px;
 }
+
+[nz-form] {
+  max-width: 800px;
+}
+
+button {
+  margin-left: 8px;
+}

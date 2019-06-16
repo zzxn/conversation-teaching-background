@@ -2,19 +2,22 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {UserService} from '../user.service';
 import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
+import {debounce, debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {Observable, Observer, Subject} from 'rxjs';
 
 @Component({
   selector: 'app-mine-modify',
   templateUrl: './mine-modify.component.html',
   styleUrls: ['./mine-modify.component.css']
 })
-export class MineModifyComponent {
+export class MineModifyComponent implements OnInit {
   isCollapsed = false;
   applying = false;
   applyFinish = true;
   applyButtonIconType = 'reload';
   applyButtonType = 'danger';
   validateForm: FormGroup;
+  validatePasswordSubject = new Subject<string>();
 
   constructor(
     private fb: FormBuilder,
@@ -30,6 +33,21 @@ export class MineModifyComponent {
     this.notification.config({
       nzPlacement: 'bottomRight'
     });
+  }
+
+  ngOnInit(): void {
+    this.validatePasswordSubject
+      .pipe(
+        tap((_) => this.validateForm.controls.oldPassword.markAsPending()),
+        debounceTime(1000),
+        distinctUntilChanged()
+      )
+      .subscribe(
+        (password: string) => {
+          console.log(this.validateForm.controls.oldPassword.status);
+          this.validOldPassword(password);
+        }
+      );
   }
 
   submitForm = ($event: any, value: any) => {
@@ -73,9 +91,17 @@ export class MineModifyComponent {
     console.log(value);
   };
 
-  validateOldPassword(): void {
-    this.userService.validPassword(this.validateForm.controls.oldPassword.value).subscribe(
-      () => this.validateForm.controls.password.updateValueAndValidity(),
+  sendValidateOldPassword(password: string): void {
+    this.validatePasswordSubject.next(password);
+  }
+
+  validOldPassword(password: string) {
+    this.userService.validPassword(password).subscribe(
+      () => {
+        this.validateForm.controls.oldPassword.updateValueAndValidity();
+        console.log('success');
+      },
+
       (error) => {
         if (error.hasOwnProperty('error') && error.error.code === 'auth:bad-pass') {
           console.log(error);

@@ -18,7 +18,7 @@
           <nz-form-label [nzSpan]="3" nzRequired>旧密码</nz-form-label>
           <div>
             <nz-form-control [nzSpan]="6" nzHasFeedback>
-              <input nz-input type="password" formControlName="oldPassword" (ngModelChange)="validateOldPassword()"/>
+              <input nz-input type="password" formControlName="oldPassword" (ngModelChange)="sendValidateOldPassword($event)"/>
               <nz-form-explain
                 *ngIf="validateForm.get('oldPassword')?.dirty"
               >

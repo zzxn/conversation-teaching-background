@@ -29,4 +29,15 @@ export class CourseService {
       timeout(5000)
     );
   }
+
+  getCourseById(id: number): Observable<Course> {
+    return this.http.get<Course>('http://localhost:8080/course/' + id, {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    }).pipe(
+      delay(300),
+      timeout(5000)
+    );
+  }
 }

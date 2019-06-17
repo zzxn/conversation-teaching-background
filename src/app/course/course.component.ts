@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import {CourseService} from '../service/course.service';
+import {Course} from '../entity/course';
 
 @Component({
   selector: 'app-course',
@@ -9,25 +11,24 @@ import { switchMap } from 'rxjs/operators';
 })
 export class CourseComponent implements OnInit {
   id: number;
-  isLoading = false;
+  isLoading = true;
   isCollapsed = false;
-  course = {
-    id: 1,
-    name: '计算机图形学',
-    description: '计算机图形学(Computer Graphics，简称CG)是一种使用数学算法' +
-      '将二维或三维图形转化为计算机显示器的栅格形式的科学。简单地说，计算机图形学的' +
-      '主要研究内容就是研究如何在计算机中表示图形、以及利用计算机进行图形的计算、' +
-      '处理和显示的相关原理与算法。',
-    select_num: 34
-  };
+  course: Course;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private courseService: CourseService
   ) { }
 
   ngOnInit() {
     this.id = +this.route.snapshot.paramMap.get('id');
+    this.courseService.getCourseById(this.id).subscribe(
+      (course: Course) => {
+        this.course = course;
+        this.isLoading = false;
+      }
+    );
   }
 
 }

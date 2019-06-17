@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
-import {Chapter} from '../chapter';
+import {Chapter} from '../entity/chapter';
 import {NzModalService} from 'ng-zorro-antd';
 
 @Component({

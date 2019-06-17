@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {AuthService} from './auth.service';
 import {HttpClient} from '@angular/common/http';
 import {Observable, Observer} from 'rxjs';
-import {User} from './user';
+import {User} from '../entity/user';
 import {delay, timeout} from 'rxjs/operators';
 import {Router} from '@angular/router';
 

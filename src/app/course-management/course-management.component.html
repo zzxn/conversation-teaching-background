@@ -16,12 +16,12 @@
         </button>
       </div>
 
-      <nz-list [nzDataSource]="data" [nzRenderItem]="entry" [nzGrid]="{ gutter: 16, xs: 24, sm: 12, md: 12, lg: 12, xl: 8 }">
+      <nz-list [nzDataSource]="courses" [nzRenderItem]="entry" [nzGrid]="{ gutter: 16, xs: 24, sm: 12, md: 12, lg: 12, xl: 8 }">
         <ng-template #entry let-item>
           <nz-list-item class="course-entry" (click)="enterCourse(item.id)" [nzContent]="nzContent">
             <ng-template #nzContent>
               <nz-card class="card" [nzTitle]="item.id + ' ' + item.name">
-                {{ item.description }}
+                {{ item.description ? item.description : '（暂无，建议添加课程描述）' }}
               </nz-card>
             </ng-template>
           </nz-list-item>

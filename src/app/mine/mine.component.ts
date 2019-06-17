@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from '../user';
-import {UserService} from '../user.service';
+import {User} from '../entity/user';
+import {UserService} from '../service/user.service';
 import {delay, timeout} from 'rxjs/operators';
 import {NzModalService, NzNotificationService, UploadFile, UploadXHRArgs} from 'ng-zorro-antd';
 import {NzButtonComponent} from 'ng-zorro-antd';

@@ -1,10 +1,10 @@
 import {Component, DoCheck, OnInit, OnDestroy} from '@angular/core';
 import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 import {debounceTime, switchMap} from 'rxjs/operators';
-import {AuthService} from './auth.service';
+import {AuthService} from './service/auth.service';
 import {fromEvent} from 'rxjs';
 import {NzModalService} from 'ng-zorro-antd';
-import {UserService} from './user.service';
+import {UserService} from './service/user.service';
 
 @Component({
   selector: 'app-root',

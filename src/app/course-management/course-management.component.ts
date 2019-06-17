@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {CourseService} from '../service/course.service';
+import {Course} from '../entity/course';
+import {NzModalService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-course-management',
@@ -9,62 +12,26 @@ import {Router} from '@angular/router';
 export class CourseManagementComponent implements OnInit {
   isLoading = true;
 
-  data = [
-    {
-      id: 1,
-      name: '计算机图形学',
-      description: '计算机图形学(Computer Graphics，简称CG)是一种使用数学算法' +
-        '将二维或三维图形转化为计算机显示器的栅格形式的科学。简单地说，计算机图形学的' +
-        '主要研究内容就是研究如何在计算机中表示图形、以及利用计算机进行图形的计算、' +
-        '处理和显示的相关原理与算法。'
-    },
-    {
-      id: 2,
-      name: '计算机图形学',
-      description: '计算机图形学(Computer Graphics，简称CG)是一种使用数学算法' +
-        '将二维或三维图形转化为计算机显示器的栅格形式的科学。简单地说，计算机图形学的' +
-        '主要研究内容就是研究如何在计算机中表示图形、以及利用计算机进行图形的计算、' +
-        '处理和显示的相关原理与算法。'
-    },
-    {
-      id: 3,
-      name: '计算机图形学',
-      description: '计算机图形学(Computer Graphics，简称CG)是一种使用数学算法' +
-        '将二维或三维图形转化为计算机显示器的栅格形式的科学。简单地说，计算机图形学的' +
-        '主要研究内容就是研究如何在计算机中表示图形、以及利用计算机进行图形的计算、' +
-        '处理和显示的相关原理与算法。'
-    },
-    {
-      id: 4,
-      name: '计算机图形学',
-      description: '计算机图形学(Computer Graphics，简称CG)是一种使用数学算法' +
-        '将二维或三维图形转化为计算机显示器的栅格形式的科学。简单地说，计算机图形学的' +
-        '主要研究内容就是研究如何在计算机中表示图形、以及利用计算机进行图形的计算、' +
-        '处理和显示的相关原理与算法。'
-    },
-    {
-      id: 5,
-      name: '计算机图形学',
-      description: '计算机图形学(Computer Graphics，简称CG)是一种使用数学算法' +
-        '将二维或三维图形转化为计算机显示器的栅格形式的科学。简单地说，计算机图形学的' +
-        '主要研究内容就是研究如何在计算机中表示图形、以及利用计算机进行图形的计算、' +
-        '处理和显示的相关原理与算法。'
-    },
-    {
-      id: 6,
-      name: '计算机图形学',
-      description: '计算机图形学(Computer Graphics，简称CG)是一种使用数学算法' +
-        '将二维或三维图形转化为计算机显示器的栅格形式的科学。简单地说，计算机图形学的' +
-        '主要研究内容就是研究如何在计算机中表示图形、以及利用计算机进行图形的计算、' +
-        '处理和显示的相关原理与算法。'
-    },
-  ];
+  courses: Course[];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private courseService: CourseService, private modalService: NzModalService) {
   }
 
   ngOnInit() {
-    this.isLoading = false;
+    this.isLoading = true;
+    this.courseService.getAllCourseOfMine().subscribe(
+      (courses: Course[]) => {
+        this.isLoading = false;
+        this.courses = courses;
+      },
+      error => {
+        this.modalService.error({
+          nzTitle: '<i>网络异常或服务器错误</i>',
+          nzContent: '<b>请刷新重试或尝试重新登录</b>'
+        });
+        console.log(error);
+      }
+    );
   }
 
   enterCourse(id: number) {

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {UserService} from '../user.service';
+import {UserService} from '../service/user.service';
 import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import {debounce, debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {Observable, Observer, Subject} from 'rxjs';

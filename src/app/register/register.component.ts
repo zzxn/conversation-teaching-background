@@ -18,7 +18,7 @@ export class RegisterComponent {
     this.validateForm = this.fb.group({
       username: ['', [this.usernameValidator]],
       password: ['', [this.passwordValidator]],
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [this.emailValidator]]
     });
   }
 
@@ -75,6 +75,15 @@ export class RegisterComponent {
       return {long: true};
     } else if (/^[0-9]+$/.test(control.value.toString())) {
       return {onlyNumber: true};
+    }
+    return {};
+  };
+
+  emailValidator = (control: FormControl): { [s: string]: boolean } => {
+    if (!control.value) {
+      return {required: true};
+    } else if (!/^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,})$/.test(control.value)) {
+      return {invalid: true};
     }
     return {};
   };

@@ -53,8 +53,13 @@
       <nz-input-group [nzPrefix]="prefixEmail">
         <input type="email" nz-input formControlName="email" placeholder="邮箱" />
       </nz-input-group>
-      <nz-form-explain *ngIf="validateForm.get('email')?.dirty && validateForm.get('email')?.errors">
-        不合法的邮箱地址
+      <nz-form-explain *ngIf="validateForm.get('email')?.dirty">
+        <ng-container *ngIf="validateForm.get('email')?.hasError('required')">
+          请输入邮箱地址
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('email')?.hasError('invalid')">
+          不合法的邮箱地址
+        </ng-container>
       </nz-form-explain>
     </nz-form-control>
   </nz-form-item>

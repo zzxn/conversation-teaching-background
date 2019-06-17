@@ -36,7 +36,7 @@
                 <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
                 <div class="ant-upload-text">Upload</div>
               </ng-container>
-              <img style="width: 87px" *ngIf="this.user.headSculpture" [src]="avatarUrl" class="avatar" />
+              <img style="width: 87px" *ngIf="this.user.headSculpture" [src]="avatarUrl" class="avatar"/>
             </nz-upload>
           </nz-form-control>
         </nz-form-item>
@@ -51,7 +51,8 @@
 
         <nz-form-item>
           <nz-form-label [nzSm]="2" [nzXs]="24" nzFor="nickname">昵称</nz-form-label>
-          <nz-form-control [nzValidateStatus]="validateNickname(nickname.value) ? 'success' : 'error'" [nzSm]="12" [nzXs]="24">
+          <nz-form-control [nzValidateStatus]="validateNickname(nickname.value) ? 'success' : 'error'" [nzSm]="12"
+                           [nzXs]="24">
             <div nz-row [nzGutter]="8">
               <div nz-col [nzSpan]="16">
                 <input #nickname nz-input id="nickname" name="nickname" type="text" [readOnly]="true"
@@ -69,7 +70,8 @@
 
         <nz-form-item>
           <nz-form-label nzRequired [nzSm]="2" [nzXs]="24" nzFor="email">邮箱</nz-form-label>
-          <nz-form-control [nzValidateStatus]="validateEmail(email.value) ? 'success' : 'error'" [nzSm]="12" [nzXs]="24">
+          <nz-form-control [nzValidateStatus]="validateEmail(email.value) ? 'success' : 'error'" [nzSm]="12"
+                           [nzXs]="24">
             <div nz-row [nzGutter]="8">
               <div nz-col [nzSpan]="16">
                 <input #email nz-input id="email" name="email" type="email" [readOnly]="true"
@@ -86,7 +88,8 @@
         </nz-form-item>
         <nz-form-item>
           <nz-form-control [nzOffset]="2">
-            <button (click)="applyModify()" nz-button [nzType]="applyButtonType" style="margin-top: 30px">
+            <button [disabled]="!emailValid || !nicknameValid || applying || (nickname.readOnly && email.readOnly)"
+                    (click)="applyModify()" nz-button [nzType]="applyButtonType" style="margin-top: 30px">
               <i nz-icon [nzType]="applyButtonIconType"
                  [spin]="applying"
                  nzTheme="outline"></i>

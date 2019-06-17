@@ -24,6 +24,9 @@ export class MineComponent implements OnInit {
   avatarLoading = false;
   avatarUrl: string;
 
+  nicknameValid = true;
+  emailValid = true;
+
   constructor(
     private userService: UserService,
     private notification: NzNotificationService,
@@ -56,7 +59,7 @@ export class MineComponent implements OnInit {
 
   applyModify() {
     // console.log(this.user);
-    if (!this.applyFinish) {
+    if (!this.applyFinish || !this.emailValid || !this.nicknameValid) {
       return;
     }
     this.applyFinish = false;
@@ -90,12 +93,14 @@ export class MineComponent implements OnInit {
   }
 
   validateNickname(nickname: string) {
-    return nickname.length <= 20;
+    this.nicknameValid = nickname.length <= 20;
+    return this.nicknameValid;
   }
 
   validateEmail(email: string) {
     const reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,})$/;
-    return reg.test(email);
+    this.emailValid =  reg.test(email);
+    return this.emailValid;
   }
 
   makeEditable(inputElement: HTMLInputElement, buttonElement: NzButtonComponent) {

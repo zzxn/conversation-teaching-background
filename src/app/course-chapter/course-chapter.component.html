@@ -28,8 +28,8 @@
     <nz-content *ngIf="!courseLoading && !chapterLoading" style="background:#fff; padding: 32px; min-height: 280px;">
       <div class="input-line">
         <label style="display: none;">输入新章节名</label>
-        <input  placeholder="请输入新章节名" class="new-chapter-input" nz-input type="text"/>
-        <button nz-button nzType="primary">
+        <input #chapterName  placeholder="请输入新章节名" class="new-chapter-input" nz-input type="text"/>
+        <button [nzLoading]="creatingChapter" (click)="createChapter(chapterName.value)" nz-button nzType="primary">
           <i nz-icon nzType="plus"></i>创建章节
         </button>
       </div>

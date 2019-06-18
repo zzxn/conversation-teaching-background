@@ -76,4 +76,26 @@ export class CourseService {
       timeout(5000)
     );
   }
+
+  createChapter(courseId: number, chapterName: string): Observable<Chapter> {
+    return this.http.post<Chapter>('http://localhost:8080/course/' + courseId + '/chapter/' + chapterName, null, {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    }).pipe(
+      delay(300),
+      timeout(5000)
+    );
+  }
+
+  deleteChapter(chapterId: number): Observable<void> {
+    return this.http.delete<void>('http://localhost:8080/chapter/' + chapterId, {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    }).pipe(
+      delay(300),
+      timeout(5000)
+    );
+  }
 }

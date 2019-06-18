@@ -1,11 +1,4 @@
-<nz-spin
-  *ngIf="isLoading"
-  style="text-align: center; margin: 32px;"
-  [nzIndicator]="indicatorTemplate"
-  nzSimple></nz-spin>
-<ng-template #indicatorTemplate><i nz-icon type="loading" style="font-size: 48px;"></i></ng-template>
-
-<nz-layout *ngIf="!isLoading">
+<nz-layout>
   <nz-sider
     nzCollapsible
     [(nzCollapsed)]="isCollapsed"
@@ -25,7 +18,13 @@
       [nzTitle]="course.name"
       nzSubtitle="课程管理 > {{ course.name }}：基本信息">
     </nz-page-header>
-    <nz-content class="course-info" style="background:#fff; padding: 32px; min-height: 280px;">
+    <nz-spin
+      *ngIf="isLoading"
+      style="text-align: center; margin: 32px;"
+      [nzIndicator]="indicatorTemplate"
+      nzSimple></nz-spin>
+    <ng-template #indicatorTemplate><i nz-icon type="loading" style="font-size: 48px;"></i></ng-template>
+    <nz-content *ngIf="!isLoading" class="course-info" style="background:#fff; padding: 32px; min-height: 280px;">
       <form nz-form>
 
         <nz-form-item>

@@ -98,4 +98,15 @@ export class CourseService {
       timeout(5000)
     );
   }
+
+  renameChapter(chapterId: number, chapterName: string) {
+    return this.http.post('http://localhost:8080/chapter/' + chapterId + '/name/' + chapterName, null, {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    }).pipe(
+      delay(300),
+      timeout(5000)
+    );
+  }
 }

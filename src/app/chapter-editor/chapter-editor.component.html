@@ -84,3 +84,25 @@
     </ng-template>
   </nz-collapse-panel>
 </nz-collapse>
+
+<nz-modal
+  [(nzVisible)]="renameModalVisible"
+  [nzTitle]="modalTitle"
+  [nzContent]="modalContent"
+  [nzFooter]="modalFooter"
+  (nzOnCancel)="handleRenameCancel()"
+>
+  <ng-template #modalTitle>
+    重命名章节
+  </ng-template>
+
+  <ng-template #modalContent>
+    <input [(ngModel)]="newChapterName" nz-input placeholder="请输入新章节名" nzSize="default" />
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <span>确定修改吗？</span>
+    <button nz-button nzType="default" (click)="handleRenameCancel()">取消</button>
+    <button nz-button nzType="primary" (click)="renameChapter()" [nzLoading]="renamingChapter">确定</button>
+  </ng-template>
+</nz-modal>

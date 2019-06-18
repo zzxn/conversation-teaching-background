@@ -12,8 +12,8 @@
     </ng-template>
     <nz-layout class="message-list-layout">
       <nz-list>
-        <nz-list-item class="message-entry" *ngFor="let message of chapter.messages; let i = index;">
-          <span class="message-index">{{i}}&nbsp;&nbsp;<i nz-icon nzType="caret-right" nzTheme="outline"></i>&nbsp;&nbsp;</span>{{message}}
+        <nz-list-item class="message-entry" *ngFor="let content of contents; let i = index;">
+          <span class="message-index">{{i}}&nbsp;&nbsp;<i nz-icon nzType="caret-right" nzTheme="outline"></i>&nbsp;&nbsp;</span>{{content.text}}
         </nz-list-item>
       </nz-list>
     </nz-layout>

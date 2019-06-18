@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Chapter} from '../entity/chapter';
 import {NzMessageService, NzNotificationService} from 'ng-zorro-antd';
+import {CourseService} from '../service/course.service';
+import {Content} from '../entity/content';
 
 @Component({
   selector: 'app-chapter-editor',
@@ -10,7 +12,7 @@ import {NzMessageService, NzNotificationService} from 'ng-zorro-antd';
 export class ChapterEditorComponent implements OnInit {
   messageType = 'plain';
 
-  constructor(private notification: NzNotificationService) {
+  constructor(private notification: NzNotificationService, private courseService: CourseService) {
     this.notification.config({
       nzPlacement: 'bottomRight'
     });
@@ -22,9 +24,14 @@ export class ChapterEditorComponent implements OnInit {
   @Output()
   delete = new EventEmitter<Chapter>();
 
-
+  contents: Content[];
 
   ngOnInit() {
+    this.courseService.getAllContentOfChapter(this.chapter.id).subscribe(
+      (contents: Content[]) => {
+        this.contents = contents;
+      }
+    );
   }
 
   switchMessageType() {

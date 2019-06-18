@@ -1,11 +1,4 @@
-<nz-spin
-  *ngIf="isLoading"
-  style="text-align: center; margin: 32px;"
-  [nzIndicator]="indicatorTemplate"
-  nzSimple></nz-spin>
-<ng-template #indicatorTemplate><i nz-icon type="loading" style="font-size: 48px;"></i></ng-template>
-
-<nz-layout *ngIf="!isLoading">
+<nz-layout>
   <nz-sider
     nzCollapsible
     [(nzCollapsed)]="isCollapsed"
@@ -22,10 +15,17 @@
   </nz-sider>
   <nz-layout>
     <nz-page-header
+      *ngIf="!courseLoading && !chapterLoading"
       [nzTitle]="course.name"
       nzSubtitle="课程管理 > {{ course.name }}：所有章节">
     </nz-page-header>
-    <nz-content style="background:#fff; padding: 32px; min-height: 280px;">
+    <nz-spin
+      *ngIf="chapterLoading || courseLoading"
+      style="text-align: center; margin: 32px;"
+      [nzIndicator]="indicatorTemplate"
+      nzSimple></nz-spin>
+    <ng-template #indicatorTemplate><i nz-icon type="loading" style="font-size: 48px;"></i></ng-template>
+    <nz-content *ngIf="!courseLoading && !chapterLoading" style="background:#fff; padding: 32px; min-height: 280px;">
       <div class="input-line">
         <label style="display: none;">输入新章节名</label>
         <input  placeholder="请输入新章节名" class="new-chapter-input" nz-input type="text"/>
@@ -33,8 +33,10 @@
           <i nz-icon nzType="plus"></i>创建章节
         </button>
       </div>
-      <app-chapter-editor (delete)="deleteChapter($event)" *ngFor="let chapter of chapters" [chapter]="chapter">
-      </app-chapter-editor>
+      <div>
+        <app-chapter-editor (delete)="deleteChapter($event)" *ngFor="let chapter of chapters" [chapter]="chapter">
+        </app-chapter-editor>
+      </div>
     </nz-content>
   </nz-layout>
 </nz-layout>

@@ -4,6 +4,7 @@ import {Course} from '../entity/course';
 import {delay, timeout} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from './auth.service';
+import {Chapter} from '../entity/chapter';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,17 @@ export class CourseService {
 
   getCourseById(id: number): Observable<Course> {
     return this.http.get<Course>('http://localhost:8080/course/' + id, {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    }).pipe(
+      delay(300),
+      timeout(5000)
+    );
+  }
+
+  getAllChapterOfCourse(courseId: number): Observable<Chapter[]> {
+    return this.http.get<Chapter[]>('http://localhost:8080/course/' + courseId + '/chapter', {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }

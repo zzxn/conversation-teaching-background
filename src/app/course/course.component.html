@@ -16,6 +16,7 @@
   <nz-layout>
     <nz-page-header
       [nzTitle]="course.name"
+      *ngIf="!isLoading"
       nzSubtitle="课程管理 > {{ course.name }}：基本信息">
     </nz-page-header>
     <nz-spin

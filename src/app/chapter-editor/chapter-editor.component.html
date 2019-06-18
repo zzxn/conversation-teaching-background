@@ -6,8 +6,11 @@
     class="chapter-entry"
   >
     <ng-template #chapterDeleteButton>
-      <button (click)="deleteThisChapter($event)" nz-button nzType="danger" nzShape="circle" style="position: relative; bottom: 4px">
-        <i nz-icon nzType="delete"></i>
+      <button class="chapter-modify-button" (click)="renameThisChapter($event)" nz-button nzType="default">
+        重命名
+      </button>
+      <button class="chapter-modify-button" (click)="deleteThisChapter($event)" nz-button nzType="danger">
+        删除
       </button>
     </ng-template>
     <nz-layout class="message-list-layout">
@@ -20,13 +23,23 @@
       <nz-list *ngIf="!isLoading">
         <nz-list-item class="message-entry" *ngFor="let content of contents; let i = index;">
           <span class="message-index">{{i}}&nbsp;&nbsp;<i nz-icon nzType="caret-right" nzTheme="outline"></i>&nbsp;&nbsp;</span>{{content.text}}
+          <div class="content-modify-button-group">
+            <button class="content-modify-button" (click)="modifyContent(content)" nz-button nzType="default" nzShape="circle">
+              <i nz-icon nzType="edit"></i>
+            </button>
+            <button class="content-modify-button" (click)="deleteContent(content)" nz-button nzType="danger"
+                    nzShape="circle">
+              <i nz-icon nzType="delete"></i>
+            </button>
+          </div>
         </nz-list-item>
       </nz-list>
     </nz-layout>
     <div *ngIf="!isLoading" class="input-line">
       <label style="display: none;">输入新消息内容：</label>
       <input *ngIf="messageType === 'plain'" placeholder="请输入新消息内容" class="new-message-input" nz-input type="text"/>
-      <input *ngIf="messageType === 'question'" placeholder="请输入问题，并在下方编辑答案" class="new-message-input" nz-input type="text"/>
+      <input *ngIf="messageType === 'question'" placeholder="请输入问题，并在下方编辑答案" class="new-message-input" nz-input
+             type="text"/>
       <button
         (click)="addMessage()"
         class="add-message-button"
@@ -53,16 +66,16 @@
         <label nz-radio nzValue="D">D</label>
       </nz-radio-group>
       <nz-input-group nzAddOnBefore="A" class="answer-line">
-        <input type="text" nz-input />
+        <input type="text" nz-input/>
       </nz-input-group>
       <nz-input-group nzAddOnBefore="B" class="answer-line">
-        <input type="text" nz-input />
+        <input type="text" nz-input/>
       </nz-input-group>
       <nz-input-group nzAddOnBefore="C" class="answer-line">
-        <input type="text" nz-input />
+        <input type="text" nz-input/>
       </nz-input-group>
       <nz-input-group nzAddOnBefore="D" class="answer-line">
-        <input type="text" nz-input />
+        <input type="text" nz-input/>
       </nz-input-group>
     </div>
     <ng-template let-active>

@@ -48,4 +48,17 @@ export class ChapterEditorComponent implements OnInit {
     $event.stopPropagation();
     this.delete.emit(this.chapter);
   }
+
+  renameThisChapter($event: MouseEvent) {
+    $event.stopPropagation();
+    this.notification.error('出现错误', '功能还未上线，敬请期待');
+  }
+
+  modifyContent(content: Content) {
+    this.notification.error('出现错误', '功能还未上线，敬请期待');
+  }
+
+  deleteContent(content: Content) {
+    this.notification.error('出现错误', '功能还未上线，敬请期待');
+  }
 }

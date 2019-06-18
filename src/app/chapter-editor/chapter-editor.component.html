@@ -11,13 +11,19 @@
       </button>
     </ng-template>
     <nz-layout class="message-list-layout">
-      <nz-list>
+      <nz-spin
+        *ngIf="isLoading"
+        style="text-align: center; margin: 32px;"
+        [nzIndicator]="indicatorTemplate"
+        nzSimple></nz-spin>
+      <ng-template #indicatorTemplate><i nz-icon type="loading" style="font-size: 48px;"></i></ng-template>
+      <nz-list *ngIf="!isLoading">
         <nz-list-item class="message-entry" *ngFor="let content of contents; let i = index;">
           <span class="message-index">{{i}}&nbsp;&nbsp;<i nz-icon nzType="caret-right" nzTheme="outline"></i>&nbsp;&nbsp;</span>{{content.text}}
         </nz-list-item>
       </nz-list>
     </nz-layout>
-    <div class="input-line">
+    <div *ngIf="!isLoading" class="input-line">
       <label style="display: none;">输入新消息内容：</label>
       <input *ngIf="messageType === 'plain'" placeholder="请输入新消息内容" class="new-message-input" nz-input type="text"/>
       <input *ngIf="messageType === 'question'" placeholder="请输入问题，并在下方编辑答案" class="new-message-input" nz-input type="text"/>

@@ -11,6 +11,7 @@ import {Content} from '../entity/content';
 })
 export class ChapterEditorComponent implements OnInit {
   messageType = 'plain';
+  isLoading = true;
 
   constructor(private notification: NzNotificationService, private courseService: CourseService) {
     this.notification.config({
@@ -30,6 +31,7 @@ export class ChapterEditorComponent implements OnInit {
     this.courseService.getAllContentOfChapter(this.chapter.id).subscribe(
       (contents: Content[]) => {
         this.contents = contents;
+        this.isLoading = false;
       }
     );
   }

@@ -109,4 +109,15 @@ export class CourseService {
       timeout(5000)
     );
   }
+
+  createContent(chapterId: number, content: Content) {
+    return this.http.post('http://localhost:8080/chapter/' + chapterId + '/content', content, {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    }).pipe(
+      delay(300),
+      timeout(5000)
+    );
+  }
 }

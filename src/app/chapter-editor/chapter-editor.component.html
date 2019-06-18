@@ -37,8 +37,8 @@
     </nz-layout>
     <div *ngIf="!isLoading" class="input-line">
       <label style="display: none;">输入新消息内容：</label>
-      <input *ngIf="messageType === 'plain'" placeholder="请输入新消息内容" class="new-message-input" nz-input type="text"/>
-      <input *ngIf="messageType === 'question'" placeholder="请输入问题，并在下方编辑答案" class="new-message-input" nz-input
+      <input [(ngModel)]="plainContent" *ngIf="messageType === 'plain'" placeholder="请输入新消息内容" class="new-message-input" nz-input type="text"/>
+      <input [(ngModel)]="questionContent" *ngIf="messageType === 'question'" placeholder="请输入问题，并在下方编辑答案" class="new-message-input" nz-input
              type="text"/>
       <button
         (click)="addMessage()"
@@ -59,23 +59,23 @@
     </div>
     <div class="input-line" *ngIf="messageType === 'question'">
       <label>正确答案：</label>
-      <nz-radio-group class="answer-line">
-        <label nz-radio nzValue="A">A</label>
-        <label nz-radio nzValue="B">B</label>
-        <label nz-radio nzValue="C">C</label>
-        <label nz-radio nzValue="D">D</label>
+      <nz-radio-group [(ngModel)]="correctAnswer" class="answer-line">
+        <label nz-radio nzValue="1">A</label>
+        <label nz-radio nzValue="2">B</label>
+        <label nz-radio nzValue="3">C</label>
+        <label nz-radio nzValue="4">D</label>
       </nz-radio-group>
       <nz-input-group nzAddOnBefore="A" class="answer-line">
-        <input type="text" nz-input/>
+        <input [(ngModel)]="options[0].text" type="text" nz-input/>
       </nz-input-group>
       <nz-input-group nzAddOnBefore="B" class="answer-line">
-        <input type="text" nz-input/>
+        <input [(ngModel)]="options[1].text" type="text" nz-input/>
       </nz-input-group>
       <nz-input-group nzAddOnBefore="C" class="answer-line">
-        <input type="text" nz-input/>
+        <input [(ngModel)]="options[2].text" type="text" nz-input/>
       </nz-input-group>
       <nz-input-group nzAddOnBefore="D" class="answer-line">
-        <input type="text" nz-input/>
+        <input [(ngModel)]="options[3].text" type="text" nz-input/>
       </nz-input-group>
     </div>
     <ng-template let-active>

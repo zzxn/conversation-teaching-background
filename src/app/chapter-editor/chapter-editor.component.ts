@@ -74,7 +74,9 @@ export class ChapterEditorComponent implements OnInit {
       return;
     }
 
-    this.options[this.correctAnswer].isCorrect = true;
+    // TODO: loading here
+
+    this.options[this.correctAnswer - 1].isCorrect = true;
 
     const content: Content = {
       id: -1,

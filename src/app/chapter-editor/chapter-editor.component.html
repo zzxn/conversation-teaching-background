@@ -22,23 +22,37 @@
       <ng-template #indicatorTemplate><i nz-icon type="loading" style="font-size: 48px;"></i></ng-template>
       <nz-list *ngIf="!isLoading">
         <nz-list-item class="message-entry" *ngFor="let content of contents; let i = index;">
-          <span class="message-index">{{i}}&nbsp;&nbsp;<i nz-icon nzType="caret-right" nzTheme="outline"></i>&nbsp;&nbsp;</span>{{content.text}}
-          <div class="content-modify-button-group">
-            <button class="content-modify-button" (click)="modifyContent(content)" nz-button nzType="default" nzShape="circle">
-              <i nz-icon nzType="edit"></i>
-            </button>
-            <button class="content-modify-button" (click)="deleteContent(content)" nz-button nzType="danger"
-                    nzShape="circle">
-              <i nz-icon nzType="delete"></i>
-            </button>
+          <div style="width: 100%;">
+            <div nz-row style="width: 100%;">
+              <div nz-col nzSpan="20">
+                <span class="message-index">{{i}}&nbsp;&nbsp;<i nz-icon nzType="caret-right" nzTheme="outline"></i>&nbsp;&nbsp;</span>{{content.text}}
+              </div>
+              <div nz-col nzSpan="4" class="content-modify-button-group">
+                <button class="content-modify-button" (click)="deleteContent(content)" nz-button nzType="danger"
+                        nzShape="circle">
+                  <i nz-icon nzType="delete"></i>
+                </button>
+                <button class="content-modify-button" (click)="modifyContent(content)" nz-button nzType="default"
+                        nzShape="circle">
+                  <i nz-icon nzType="edit"></i>
+                </button>
+              </div>
+            </div>
+            <div style="padding-left: 30px" *ngIf="content.type === 2">
+              <p *ngFor="let option of content.options">
+                <nz-tag [nzColor]="option.isCorrect ? 'green' : 'volcano'">{{['A', 'B', 'C', 'D'][option.optionId - 1]}}</nz-tag>{{option.text}}
+              </p>
+            </div>
           </div>
         </nz-list-item>
       </nz-list>
     </nz-layout>
     <div *ngIf="!isLoading" class="input-line">
       <label style="display: none;">输入新消息内容：</label>
-      <input [(ngModel)]="plainContent" *ngIf="messageType === 'plain'" placeholder="请输入新消息内容" class="new-message-input" nz-input type="text"/>
-      <input [(ngModel)]="questionContent" *ngIf="messageType === 'question'" placeholder="请输入问题，并在下方编辑答案" class="new-message-input" nz-input
+      <input [(ngModel)]="plainContent" *ngIf="messageType === 'plain'" placeholder="请输入新消息内容" class="new-message-input"
+             nz-input type="text"/>
+      <input [(ngModel)]="questionContent" *ngIf="messageType === 'question'" placeholder="请输入问题，并在下方编辑答案"
+             class="new-message-input" nz-input
              type="text"/>
       <button
         (click)="addMessage()"
@@ -97,7 +111,7 @@
   </ng-template>
 
   <ng-template #modalContent>
-    <input [(ngModel)]="newChapterName" nz-input placeholder="请输入新章节名" nzSize="default" />
+    <input [(ngModel)]="newChapterName" nz-input placeholder="请输入新章节名" nzSize="default"/>
   </ng-template>
 
   <ng-template #modalFooter>

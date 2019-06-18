@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {AuthService} from './auth.service';
 import {Chapter} from '../entity/chapter';
 import {Content} from '../entity/content';
+import {Student} from '../entity/student';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +57,17 @@ export class CourseService {
 
   getAllContentOfChapter(chapterId: number): Observable<Content[]> {
     return this.http.get<Content[]>('http://localhost:8080/chapter/' + chapterId + '/content', {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    }).pipe(
+      delay(300),
+      timeout(5000)
+    );
+  }
+
+  getAllStudentOfCourse(courseId: number): Observable<Student[]> {
+    return this.http.get<Student[]>('http://localhost:8080/course/' + courseId + '/student', {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }

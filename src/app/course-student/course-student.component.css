@@ -9,6 +9,11 @@
   max-width: 800px;
 }
 
+/* fix a bug (or feature? anyway the border-bottom will disappear) of ng-zorro */
+.ant-list-item:last-child {
+  border: 1px solid skyblue;
+}
+
 .student-entry:hover {
   cursor: pointer;
   animation: myfirst 500ms;

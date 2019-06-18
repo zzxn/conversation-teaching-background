@@ -1,11 +1,4 @@
-<nz-spin
-  *ngIf="isLoading"
-  style="text-align: center; margin: 32px;"
-  [nzIndicator]="indicatorTemplate"
-  nzSimple></nz-spin>
-<ng-template #indicatorTemplate><i nz-icon type="loading" style="font-size: 48px;"></i></ng-template>
-
-<nz-layout *ngIf="!isLoading">
+<nz-layout>
   <nz-sider
     nzCollapsible
     [(nzCollapsed)]="isCollapsed"
@@ -22,20 +15,26 @@
   </nz-sider>
   <nz-layout>
     <nz-page-header
+      *ngIf="!courseLoading && !studentLoading"
       [nzTitle]="course.name"
       nzSubtitle="课程管理 > {{ course.name }}：选课学生">
     </nz-page-header>
-    <nz-content style="background:#fff; padding: 32px; min-height: 280px;">
+    <nz-spin
+      *ngIf="studentLoading || courseLoading"
+      style="text-align: center; margin: 32px;"
+      [nzIndicator]="indicatorTemplate"
+      nzSimple></nz-spin>
+    <ng-template #indicatorTemplate><i nz-icon type="loading" style="font-size: 48px;"></i></ng-template>
+    <nz-content *ngIf="!courseLoading && !studentLoading" style="background:#fff; padding: 32px; min-height: 280px;">
       <nz-list [nzDataSource]="students" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
         <ng-template #item let-item>
-          <nz-list-item (click)="linkToStudent(item.id)" class="student-entry">
+          <nz-list-item class="student-entry">
             <nz-list-item-meta
               [nzTitle]="nzTitle"
               nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-              nzDescription="签名是态度，我可以更酷"
             >
               <ng-template #nzTitle>
-                {{item.name}}
+                {{item.nickname}} (学号：{{item.number ? item.number : '未填'}})
               </ng-template>
             </nz-list-item-meta>
             <nz-progress [nzPercent]="75" nzType="circle" [nzWidth]="64"></nz-progress>

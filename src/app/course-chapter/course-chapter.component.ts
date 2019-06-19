@@ -1,8 +1,7 @@
-import {Component, DoCheck, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {Router, ActivatedRoute, ParamMap} from '@angular/router';
-import {switchMap} from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Chapter} from '../entity/chapter';
-import {NzModalService, NzNotificationComponent, NzNotificationService} from 'ng-zorro-antd';
+import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import {CourseService} from '../service/course.service';
 import {Course} from '../entity/course';
 

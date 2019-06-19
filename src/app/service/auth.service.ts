@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, Observer} from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {timeout} from 'rxjs/operators';
 
 @Injectable({

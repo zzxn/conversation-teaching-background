@@ -1,12 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../entity/user';
 import {UserService} from '../service/user.service';
-import {delay, timeout} from 'rxjs/operators';
-import {NzModalService, NzNotificationService, UploadFile, UploadXHRArgs} from 'ng-zorro-antd';
-import {NzButtonComponent} from 'ng-zorro-antd';
-import {Observable, Observer, Subscription} from 'rxjs';
+import {NzButtonComponent, NzModalService, NzNotificationService, UploadFile} from 'ng-zorro-antd';
+import {Observable, Observer} from 'rxjs';
 import {until} from 'selenium-webdriver';
-import urlContains = until.urlContains;
 
 @Component({
   selector: 'app-mine',

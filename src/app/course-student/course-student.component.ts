@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute, ParamMap} from '@angular/router';
-import {switchMap} from 'rxjs/operators';
-import {User} from '../entity/user';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Course} from '../entity/course';
 import {CourseService} from '../service/course.service';
 import {Student} from '../entity/student';

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {UserService} from '../service/user.service';
 import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
-import {debounce, debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-import {Observable, Observer, Subject} from 'rxjs';
+import {debounceTime, distinctUntilChanged, tap} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-mine-modify',

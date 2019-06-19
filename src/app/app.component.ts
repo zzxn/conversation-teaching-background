@@ -1,6 +1,6 @@
-import {Component, DoCheck, OnInit, OnDestroy} from '@angular/core';
-import {Router, ActivatedRoute, ParamMap} from '@angular/router';
-import {debounceTime, switchMap} from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {debounceTime} from 'rxjs/operators';
 import {AuthService} from './service/auth.service';
 import {fromEvent} from 'rxjs';
 import {NzModalService} from 'ng-zorro-antd';

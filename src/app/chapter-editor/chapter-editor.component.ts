@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Chapter} from '../entity/chapter';
-import {NzMessageService, NzModalService, NzNotificationService} from 'ng-zorro-antd';
+import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import {CourseService} from '../service/course.service';
 import {Content} from '../entity/content';
 import {Option} from '../entity/option';

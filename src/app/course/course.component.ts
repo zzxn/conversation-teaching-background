@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute, ParamMap} from '@angular/router';
-import {switchMap} from 'rxjs/operators';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CourseService} from '../service/course.service';
 import {Course} from '../entity/course';
 import {NzButtonComponent, NzNotificationService, UploadFile} from 'ng-zorro-antd';

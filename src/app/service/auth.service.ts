@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable, Observer} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {timeout} from 'rxjs/operators';
+import {Md5} from 'ts-md5';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,8 @@ export class AuthService {
 
 
   login(username: string, password: string): Observable<string> {
+    password = Md5.hashStr(password).toString(); // hash the password
+
     return Observable.create((observer: Observer<string>) => {
       this.http.post(this.loginApiUrl, {
         'username': username,
@@ -53,6 +56,8 @@ export class AuthService {
   }
 
   register(username: string, password: string, email: string): Observable<string> {
+    password = Md5.hashStr(password).toString(); // hash the password
+
     return Observable.create((observer: Observer<string>) => {
       this.http.post(this.registerApiUrl, {
         'username': username,

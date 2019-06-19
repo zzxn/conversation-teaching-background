@@ -16,7 +16,6 @@ import {CourseComponent} from './course/course.component';
 import {CourseChapterComponent} from './course-chapter/course-chapter.component';
 import {CourseStudentComponent} from './course-student/course-student.component';
 import {MineModifyComponent} from './mine-modify/mine-modify.component';
-import {StudentComponent} from './student/student.component';
 import {FixProgressDirective} from './fix-progress.directive';
 import {LoginComponent} from './login/login.component';
 import {LoginGuard} from './login-guard';
@@ -35,7 +34,6 @@ registerLocaleData(zh);
     CourseChapterComponent,
     CourseStudentComponent,
     MineModifyComponent,
-    StudentComponent,
     FixProgressDirective,
     LoginComponent,
     RegisterComponent,

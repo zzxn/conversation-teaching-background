@@ -7,6 +7,7 @@ import {AuthService} from './auth.service';
 import {Chapter} from '../entity/chapter';
 import {Content} from '../entity/content';
 import {Student} from '../entity/student';
+import {StudentStatistics} from '../entity/student-statistics';
 
 @Injectable({
   providedIn: 'root'
@@ -145,6 +146,17 @@ export class CourseService {
 
   deleteContent(contentId: number): Observable<void> {
     return this.http.delete<void>('http://localhost:8080/content/' + contentId, {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    }).pipe(
+      timeout(5000)
+    );
+  }
+
+  getStudentStatistics(courseId: number, studentUuid: string): Observable<StudentStatistics> {
+    return this.http.get<StudentStatistics>('http://localhost:8080/course/'
+      + courseId + '/student/' + studentUuid + '/statistics', {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }

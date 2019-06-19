@@ -29,9 +29,9 @@ export class MineComponent implements OnInit {
     private notification: NzNotificationService,
     private modalService: NzModalService) {
     this.notification.config({
-      nzPlacement: 'bottomRight'
-    }
-    );
+      nzPlacement: 'bottomRight',
+      nzMaxStack: 2
+    });
   }
 
   ngOnInit() {
@@ -44,12 +44,12 @@ export class MineComponent implements OnInit {
           console.log(user);
           this.loading = false;
         },
-        (msg: string) => {
-          this.modalService.error({
-            nzTitle: '<i>网络异常或服务器错误</i>',
-            nzContent: '<b>请刷新重试或尝试重新登录</b>'
-          });
-          console.log(msg);
+        (errorMsg) => {
+          if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
+            this.notification.error('身份令牌失效', '请登出后重新登录');
+          } else {
+            this.notification.error('网络异常', '联系服务器出错');
+          }
         }
       );
   }
@@ -75,7 +75,11 @@ export class MineComponent implements OnInit {
           }, 2000);
         },
         (errorMsg) => {
-          this.notification.error('应用更改失败', '网络原因或服务器内部错误，请修复网络后重试或重新登录');
+          if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
+            this.notification.error('身份令牌失效', '请登出后重新登录');
+          } else {
+            this.notification.error('网络异常', '联系服务器出错');
+          }
           console.log(errorMsg);
           this.applying = false;
           this.applyButtonIconType = 'close-circle';
@@ -96,7 +100,7 @@ export class MineComponent implements OnInit {
 
   validateEmail(email: string) {
     const reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,})$/;
-    this.emailValid =  reg.test(email);
+    this.emailValid = reg.test(email);
     return this.emailValid;
   }
 

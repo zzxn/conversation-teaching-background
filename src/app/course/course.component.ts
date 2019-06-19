@@ -4,6 +4,7 @@ import {CourseService} from '../service/course.service';
 import {Course} from '../entity/course';
 import {NzButtonComponent, NzNotificationService, UploadFile} from 'ng-zorro-antd';
 import {Observable, Observer} from 'rxjs';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-course',
@@ -43,6 +44,14 @@ export class CourseComponent implements OnInit {
         this.course = course;
         this.imageUrl = this.course.image;
         this.isLoading = false;
+      },
+      (errorMsg: HttpErrorResponse) => {
+        console.log(errorMsg.error);
+        if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
+          this.notification.error('身份令牌失效', '请登出后重新登录');
+        } else {
+          this.notification.error('网络异常', '联系服务器出错');
+        }
       }
     );
   }
@@ -57,6 +66,14 @@ export class CourseComponent implements OnInit {
       .subscribe(
         () => {
           console.log('success!!!!!!!!!!');
+          this.applying = false;
+        },
+        (errorMsg) => {
+          if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
+            this.notification.error('身份令牌失效', '请登出后重新登录');
+          } else {
+            this.notification.error('网络异常', '联系服务器出错');
+          }
           this.applying = false;
         }
       );
@@ -88,11 +105,14 @@ export class CourseComponent implements OnInit {
       () => {
         this.router.navigateByUrl('/');
       },
-    (error) => {
+      (errorMsg) => {
+        if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
+          this.notification.error('身份令牌失效', '请登出后重新登录');
+        } else {
+          this.notification.error('网络异常', '联系服务器出错');
+        }
         this.deletingCourse = false;
-        this.notification.error('删除失败', '由于网络原因或令牌失效，删除课程失败');
-        console.log(error);
-    }
+      }
     );
   }
 

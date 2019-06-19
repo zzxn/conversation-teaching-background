@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Course} from '../entity/course';
 import {CourseService} from '../service/course.service';
 import {Student} from '../entity/student';
-import {NzModalService} from 'ng-zorro-antd';
+import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-course',
@@ -17,8 +17,13 @@ export class CourseStudentComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router, private courseService: CourseService,
-    private modalService: NzModalService
+    private modalService: NzModalService,
+    private notification: NzNotificationService
   ) {
+    this.notification.config({
+      nzPlacement: 'bottomRight',
+      nzMaxStack: 2
+    });
   }
 
   course: Course;
@@ -39,6 +44,13 @@ export class CourseStudentComponent implements OnInit {
       (students: Student[]) => {
         this.students = students;
         this.studentLoading = false;
+      },
+      (errorMsg) => {
+        if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
+          this.notification.error('身份令牌失效', '请登出后重新登录');
+        } else {
+          this.notification.error('网络异常', '联系服务器出错');
+        }
       }
     );
   }

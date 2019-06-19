@@ -42,12 +42,26 @@ export class CourseChapterComponent implements OnInit {
       (course: Course) => {
         this.course = course;
         this.courseLoading = false;
+      },
+      (errorMsg) => {
+        if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
+          this.notification.error('身份令牌失效', '请登出后重新登录');
+        } else {
+          this.notification.error('网络异常', '联系服务器出错');
+        }
       }
     );
     this.courseService.getAllChapterOfCourse(this.id).subscribe(
       (chapters: Chapter[]) => {
         this.chapters = chapters;
         this.chapterLoading = false;
+      },
+      (errorMsg) => {
+        if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
+          this.notification.error('身份令牌失效', '请登出后重新登录');
+        } else {
+          this.notification.error('网络异常', '联系服务器出错');
+        }
       }
     );
   }
@@ -65,6 +79,13 @@ export class CourseChapterComponent implements OnInit {
         this.courseService.deleteChapter(chapter.id).subscribe(
           () => {
             this.notification.success('成功删除章节', '章节《' + chapter.name + '》已被成功删除');
+          },
+          (errorMsg) => {
+            if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
+              this.notification.error('身份令牌失效', '请登出后重新登录');
+            } else {
+              this.notification.error('网络异常', '联系服务器出错');
+            }
           }
         );
       },
@@ -84,6 +105,14 @@ export class CourseChapterComponent implements OnInit {
         (chapter: Chapter) => {
           console.log(chapter);
           this.chapters.push(chapter);
+          this.creatingChapter = false;
+        },
+        (errorMsg) => {
+          if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
+            this.notification.error('身份令牌失效', '请登出后重新登录');
+          } else {
+            this.notification.error('网络异常', '联系服务器出错');
+          }
           this.creatingChapter = false;
         }
       );

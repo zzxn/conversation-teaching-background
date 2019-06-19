@@ -26,7 +26,6 @@ export class UserService {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
     }).pipe(
-      delay(300),
       timeout(5000)
     );
   }
@@ -43,7 +42,6 @@ export class UserService {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
     }).pipe(
-      delay(300),
       timeout(5000)
     );
   }
@@ -61,7 +59,6 @@ export class UserService {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
     }).pipe(
-      delay(300),
       timeout(5000)
     );
   }

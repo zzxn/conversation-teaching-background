@@ -31,7 +31,8 @@ export class MineModifyComponent implements OnInit {
       confirm: ['', [this.confirmValidator]]
     });
     this.notification.config({
-      nzPlacement: 'bottomRight'
+      nzPlacement: 'bottomRight',
+      nzMaxStack: 2
     });
   }
 
@@ -46,6 +47,13 @@ export class MineModifyComponent implements OnInit {
         (password: string) => {
           console.log(this.validateForm.controls.oldPassword.status);
           this.validOldPassword(password);
+        },
+        (errorMsg) => {
+          if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
+            this.notification.error('身份令牌失效', '请登出后重新登录');
+          } else {
+            this.notification.error('网络异常', '联系服务器出错');
+          }
         }
       );
   }
@@ -75,8 +83,11 @@ export class MineModifyComponent implements OnInit {
         }, 2000);
       },
       (error) => {
-        console.log('update password error');
-        this.notification.error('修改密码失败', '网络原因或服务器内部错误，请修复网络后重试或者重新登录');
+        if (error.hasOwnProperty('error') && error.error.code === 'auth:bad-token') {
+          this.notification.error('身份令牌失效', '请登出后重新登录');
+        } else {
+          this.notification.error('网络异常', '联系服务器出错');
+        }
         console.log(error);
         this.applying = false;
         this.applyButtonIconType = 'close-circle';

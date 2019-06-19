@@ -17,6 +17,10 @@ export class CourseManagementComponent implements OnInit {
 
   constructor(private router: Router, private courseService: CourseService, private modalService: NzModalService,
               private notification: NzNotificationService) {
+    this.notification.config({
+      nzPlacement: 'bottomRight',
+      nzMaxStack: 2
+    });
   }
 
   ngOnInit() {
@@ -26,12 +30,12 @@ export class CourseManagementComponent implements OnInit {
         this.isLoading = false;
         this.courses = courses;
       },
-      error => {
-        this.modalService.error({
-          nzTitle: '<i>网络异常或服务器错误</i>',
-          nzContent: '<b>请刷新重试或尝试重新登录</b>'
-        });
-        console.log(error);
+      (errorMsg) => {
+        if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
+          this.notification.error('身份令牌失效', '请登出后重新登录');
+        } else {
+          this.notification.error('网络异常', '联系服务器出错');
+        }
       }
     );
   }
@@ -54,6 +58,14 @@ export class CourseManagementComponent implements OnInit {
     this.courseService.createCourse(name).subscribe(
       (course: Course) => {
         this.courses = [...this.courses, course]; // must do it in this way, or the list won't re-render
+        this.creatingCourse = false;
+      },
+      (errorMsg) => {
+        if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
+          this.notification.error('身份令牌失效', '请登出后重新登录');
+        } else {
+          this.notification.error('网络异常', '联系服务器出错');
+        }
         this.creatingCourse = false;
       }
     );

@@ -46,6 +46,14 @@ export class ChapterEditorComponent implements OnInit {
         this.contents = contents;
         this.newChapterName = this.chapter.name;
         this.isLoading = false;
+      },
+      (errorMsg) => {
+        if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
+          this.notification.error('身份令牌失效', '请登出后重新登录');
+          this.isLoading = false;
+        } else {
+          this.notification.error('网络异常', '联系服务器出错');
+        }
       }
     );
 
@@ -74,8 +82,6 @@ export class ChapterEditorComponent implements OnInit {
     } else if (this.messageType === 'question' && this.correctAnswer === 0) {
       this.notification.error('必须选择正确答案', '请选择四个选项中的一个作为正确答案');
       return;
-    } else if (this.checkOptions()) {
-      return;
     }
 
     this.creatingMessage = true;
@@ -100,13 +106,16 @@ export class ChapterEditorComponent implements OnInit {
         this.contents.push(newContent);
         this.clearContent();
         this.creatingMessage = false;
+      },
+      (errorMsg) => {
+        if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
+          this.notification.error('身份令牌失效', '请登出后重新登录');
+          this.isLoading = false;
+        } else {
+          this.notification.error('网络异常', '联系服务器出错');
+        }
       }
     );
-  }
-
-  private checkOptions(): boolean {
-    // TODO: finish it
-    return false;
   }
 
   deleteThisChapter($event: MouseEvent) {
@@ -156,7 +165,15 @@ export class ChapterEditorComponent implements OnInit {
         this.contents.splice(this.contents.indexOf(content), 1);
         this.courseService.deleteContent(content.id).subscribe(
           () => {
-            this.notification.success('成功删除消息', '内容为 “' + content.text + '”的消息已成功被删除')
+            this.notification.success('成功删除消息', '内容为 “' + content.text + '”的消息已成功被删除');
+          },
+          (errorMsg) => {
+            if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
+              this.notification.error('身份令牌失效', '请登出后重新登录');
+              this.isLoading = false;
+            } else {
+              this.notification.error('网络异常', '联系服务器出错');
+            }
           }
         );
       },

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {CourseService} from '../service/course.service';
 import {Course} from '../entity/course';
-import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
+import {NzListComponent, NzModalService, NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-course-management',
@@ -40,7 +40,7 @@ export class CourseManagementComponent implements OnInit {
     this.router.navigateByUrl('/course/' + id);
   }
 
-  createCourse(name: string) {
+  createCourse(name: string, courseList: NzListComponent) {
     name = name ? name.trim() : name;
     if (name.length === 0) {
       this.notification.error('课程名不能为空', '请至少输入 1 个字符');
@@ -53,7 +53,7 @@ export class CourseManagementComponent implements OnInit {
     this.creatingCourse = true;
     this.courseService.createCourse(name).subscribe(
       (course: Course) => {
-        this.courses.push(course);
+        this.courses = [...this.courses, course]; // must do it in this way, or the list won't re-render
         this.creatingCourse = false;
       }
     );

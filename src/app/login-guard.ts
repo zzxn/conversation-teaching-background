@@ -13,7 +13,6 @@ export class LoginGuard implements CanActivate {
         this.router.navigateByUrl(this.authService.redirectUrl);
         return false;
       }
-      console.log(state.url);
       return true;
     } else if (state.url === '/login' || state.url === '/register') {
       return true;

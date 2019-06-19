@@ -41,7 +41,6 @@ export class MineComponent implements OnInit {
         (user: User) => {
           this.user = user;
           this.avatarUrl = user.headSculpture + '?s=' + Math.random();
-          console.log(user);
           this.loading = false;
         },
         (errorMsg) => {
@@ -55,7 +54,6 @@ export class MineComponent implements OnInit {
   }
 
   applyModify() {
-    // console.log(this.user);
     if (!this.applyFinish || !this.emailValid || !this.nicknameValid) {
       return;
     }
@@ -64,7 +62,6 @@ export class MineComponent implements OnInit {
     this.userService.updateUser(this.user)
       .subscribe(
         () => {
-          console.log('success modify');
           this.applying = false;
           this.applyButtonIconType = 'check-circle';
           this.applyButtonType = 'default';
@@ -80,7 +77,7 @@ export class MineComponent implements OnInit {
           } else {
             this.notification.error('网络异常', '联系服务器出错');
           }
-          console.log(errorMsg);
+          console.error(errorMsg);
           this.applying = false;
           this.applyButtonIconType = 'close-circle';
           this.applyButtonType = 'danger';
@@ -113,7 +110,6 @@ export class MineComponent implements OnInit {
 
   beforeUpload = (file: File) => {
     return new Observable((observer: Observer<boolean>) => {
-      console.log(file.name);
       const isJPG = file.type === 'image/jpeg';
       if (!isJPG) {
         this.notification.error('You can only upload JPG file!', '');

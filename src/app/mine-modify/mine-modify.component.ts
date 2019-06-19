@@ -45,7 +45,6 @@ export class MineModifyComponent implements OnInit {
       )
       .subscribe(
         (password: string) => {
-          console.log(this.validateForm.controls.oldPassword.status);
           this.validOldPassword(password);
         },
         (errorMsg) => {
@@ -72,7 +71,6 @@ export class MineModifyComponent implements OnInit {
     }
     this.userService.updatePassword(this.validateForm.controls.password.value).subscribe(
       () => {
-        console.log('success update password');
         this.applying = false;
         this.applyButtonIconType = 'check-circle';
         this.applyButtonType = 'default';
@@ -88,7 +86,7 @@ export class MineModifyComponent implements OnInit {
         } else {
           this.notification.error('网络异常', '联系服务器出错');
         }
-        console.log(error);
+        console.error(error);
         this.applying = false;
         this.applyButtonIconType = 'close-circle';
         this.applyButtonType = 'danger';
@@ -99,7 +97,7 @@ export class MineModifyComponent implements OnInit {
         }, 2000);
       }
     );
-    console.log(value);
+    console.error(value);
   };
 
   sendValidateOldPassword(password: string): void {
@@ -110,12 +108,11 @@ export class MineModifyComponent implements OnInit {
     this.userService.validPassword(password).subscribe(
       () => {
         this.validateForm.controls.oldPassword.updateValueAndValidity();
-        console.log('success');
       },
 
       (error) => {
         if (error.hasOwnProperty('error') && error.error.code === 'auth:bad-pass') {
-          console.log(error);
+          console.error(error);
           this.validateForm.controls.oldPassword.setErrors({
             wrong: true
           });

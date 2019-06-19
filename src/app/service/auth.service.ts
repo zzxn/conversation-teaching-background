@@ -39,7 +39,6 @@ export class AuthService {
         'password': password
       }).subscribe(
         (tokenResponse: TokenResponse) => {
-          console.log(tokenResponse);
           localStorage.setItem('token', tokenResponse.token);
           localStorage.setItem('uuid', tokenResponse.uuid);
           observer.next(this.redirectUrl);
@@ -48,7 +47,7 @@ export class AuthService {
           if (error.hasOwnProperty('error') && error.error.code === 'auth:bad-name-pass') {
               observer.error('用户名或密码错误');
           }
-          console.log(error);
+          console.error(error);
           observer.error('网络异常');
         }
       );
@@ -65,7 +64,6 @@ export class AuthService {
         'email': email
       }).subscribe(
         (tokenResponse: TokenResponse) => {
-          console.log(tokenResponse);
           localStorage.setItem('token', tokenResponse.token);
           localStorage.setItem('uuid', tokenResponse.uuid);
           observer.next(this.redirectUrl);
@@ -74,7 +72,7 @@ export class AuthService {
           if (error.hasOwnProperty('error') && error.error.code === 'auth:dup-name') {
               observer.error('用户名重复');
           }
-          console.log(error);
+          console.error(error);
           observer.error('网络异常');
         }
       );

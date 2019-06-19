@@ -103,7 +103,6 @@ export class CourseChapterComponent implements OnInit {
       this.creatingChapter = true;
       this.courseService.createChapter(this.course.id, name).subscribe(
         (chapter: Chapter) => {
-          console.log(chapter);
           this.chapters.push(chapter);
           this.creatingChapter = false;
         },

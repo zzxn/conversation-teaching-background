@@ -99,8 +99,6 @@ export class ChapterEditorComponent implements OnInit {
       options: this.messageType === 'plain' ? null : this.options
     };
 
-    console.log(content);
-
     this.courseService.createContent(this.chapter.id, content).subscribe(
       (newContent: Content) => {
         this.contents.push(newContent);

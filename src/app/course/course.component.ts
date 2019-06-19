@@ -46,7 +46,7 @@ export class CourseComponent implements OnInit {
         this.isLoading = false;
       },
       (errorMsg: HttpErrorResponse) => {
-        console.log(errorMsg.error);
+        console.error(errorMsg.error);
         if (errorMsg.hasOwnProperty('error') && errorMsg.error.code === 'auth:bad-token') {
           this.notification.error('身份令牌失效', '请登出后重新登录');
         } else {
@@ -57,7 +57,6 @@ export class CourseComponent implements OnInit {
   }
 
   applyModify() {
-    // console.log(this.user);
     if (this.applying || !this.nameValid || !this.descriptionValid) {
       return;
     }
@@ -65,7 +64,6 @@ export class CourseComponent implements OnInit {
     this.courseService.updateCourse(this.course)
       .subscribe(
         () => {
-          console.log('success!!!!!!!!!!');
           this.applying = false;
         },
         (errorMsg) => {
@@ -118,7 +116,6 @@ export class CourseComponent implements OnInit {
 
   beforeUpload = (file: File) => {
     return new Observable((observer: Observer<boolean>) => {
-      console.log(file.name);
       const isJPG = file.type === 'image/jpeg';
       if (!isJPG) {
         this.notification.error('You can only upload JPG file!', '');

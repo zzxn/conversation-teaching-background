@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   isCollapse = false;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router,
     private modalService: NzModalService,
     private userService: UserService

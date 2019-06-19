@@ -42,7 +42,7 @@ export class CourseComponent implements OnInit {
     this.courseService.getCourseById(this.id).subscribe(
       (course: Course) => {
         this.course = course;
-        this.imageUrl = this.course.image;
+        this.imageUrl = this.course.image + '?s=' + Math.random();
         this.isLoading = false;
       },
       (errorMsg: HttpErrorResponse) => {

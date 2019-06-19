@@ -39,59 +39,65 @@
               </div>
             </div>
             <div style="padding-left: 30px" *ngIf="content.type === 2">
+              <nz-divider style="margin-top: 10px; margin-bottom: 10px" nzDashed="true"></nz-divider>
               <p *ngFor="let option of content.options">
-                <nz-tag [nzColor]="option.isCorrect ? 'green' : 'volcano'">{{['A', 'B', 'C', 'D'][option.optionId - 1]}}</nz-tag>{{option.text}}
+                <nz-tag
+                  [nzColor]="option.isCorrect ? 'green' : 'volcano'">{{['A', 'B', 'C', 'D'][option.optionId - 1]}}</nz-tag>
+                {{option.text}}
               </p>
             </div>
           </div>
         </nz-list-item>
       </nz-list>
     </nz-layout>
-    <div *ngIf="!isLoading" class="input-line">
-      <label style="display: none;">输入新消息内容：</label>
-      <input [(ngModel)]="plainContent" *ngIf="messageType === 'plain'" placeholder="请输入新消息内容" class="new-message-input"
-             nz-input type="text"/>
-      <input [(ngModel)]="questionContent" *ngIf="messageType === 'question'" placeholder="请输入问题，并在下方编辑答案"
-             class="new-message-input" nz-input
-             type="text"/>
-      <button
-        (click)="addMessage()"
-        class="add-message-button"
-        nz-button nzType="primary"
-        nzShape="circle"
-        nzSize="large">
-        <i nz-icon [nzType]="messageType === 'plain' ? 'plus' : 'question'"></i>
-      </button>
-      <button
-        (click)="switchMessageType()"
-        class="add-message-button"
-        nz-button nzType="default"
-        nzShape="circle"
-        nzSize="large">
-        <i nz-icon nzType="swap"></i>
-      </button>
-    </div>
-    <div class="input-line" *ngIf="messageType === 'question'">
-      <label>正确答案：</label>
-      <nz-radio-group [(ngModel)]="correctAnswer" class="answer-line">
-        <label nz-radio nzValue="1">A</label>
-        <label nz-radio nzValue="2">B</label>
-        <label nz-radio nzValue="3">C</label>
-        <label nz-radio nzValue="4">D</label>
-      </nz-radio-group>
-      <nz-input-group nzAddOnBefore="A" class="answer-line">
-        <input [(ngModel)]="options[0].text" type="text" nz-input/>
-      </nz-input-group>
-      <nz-input-group nzAddOnBefore="B" class="answer-line">
-        <input [(ngModel)]="options[1].text" type="text" nz-input/>
-      </nz-input-group>
-      <nz-input-group nzAddOnBefore="C" class="answer-line">
-        <input [(ngModel)]="options[2].text" type="text" nz-input/>
-      </nz-input-group>
-      <nz-input-group nzAddOnBefore="D" class="answer-line">
-        <input [(ngModel)]="options[3].text" type="text" nz-input/>
-      </nz-input-group>
-    </div>
+    <nz-spin *ngIf="!isLoading" [nzSpinning]="creatingMessage">
+      <div *ngIf="!isLoading" class="input-line">
+        <label style="display: none;">输入新消息内容：</label>
+        <input [(ngModel)]="plainContent" *ngIf="messageType === 'plain'" placeholder="请输入新消息内容"
+               class="new-message-input"
+               nz-input type="text"/>
+        <input [(ngModel)]="questionContent" *ngIf="messageType === 'question'" placeholder="请输入问题，并在下方编辑答案"
+               class="new-message-input" nz-input
+               type="text"/>
+        <button
+          (click)="createMessage()"
+          class="add-message-button"
+          nz-button nzType="primary"
+          nzShape="circle"
+          nzSize="large">
+          <i nz-icon [nzType]="messageType === 'plain' ? 'plus' : 'question'"></i>
+        </button>
+        <button
+          (click)="switchMessageType()"
+          class="add-message-button"
+          nz-button nzType="default"
+          nzShape="circle"
+          nzSize="large">
+          <i nz-icon nzType="swap"></i>
+        </button>
+      </div>
+      <div class="input-line" *ngIf="messageType === 'question'">
+        <label>正确答案：</label>
+        <nz-radio-group [(ngModel)]="correctAnswer" class="answer-line">
+          <label nz-radio nzValue="1">A</label>
+          <label nz-radio nzValue="2">B</label>
+          <label nz-radio nzValue="3">C</label>
+          <label nz-radio nzValue="4">D</label>
+        </nz-radio-group>
+        <nz-input-group nzAddOnBefore="A" class="answer-line">
+          <input [(ngModel)]="options[0].text" type="text" nz-input/>
+        </nz-input-group>
+        <nz-input-group nzAddOnBefore="B" class="answer-line">
+          <input [(ngModel)]="options[1].text" type="text" nz-input/>
+        </nz-input-group>
+        <nz-input-group nzAddOnBefore="C" class="answer-line">
+          <input [(ngModel)]="options[2].text" type="text" nz-input/>
+        </nz-input-group>
+        <nz-input-group nzAddOnBefore="D" class="answer-line">
+          <input [(ngModel)]="options[3].text" type="text" nz-input/>
+        </nz-input-group>
+      </div>
+    </nz-spin>
     <ng-template let-active>
       {{ active }}
       <i nz-icon type="caret-right" class="ant-collapse-arrow" [nzRotate]="p.nzActive ? 90 : -90"></i>

@@ -99,8 +99,8 @@ export class CourseService {
     );
   }
 
-  renameChapter(chapterId: number, chapterName: string) {
-    return this.http.post('http://localhost:8080/chapter/' + chapterId + '/name/' + chapterName, null, {
+  renameChapter(chapterId: number, chapterName: string): Observable<void> {
+    return this.http.post<void>('http://localhost:8080/chapter/' + chapterId + '/name/' + chapterName, null, {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
@@ -110,8 +110,19 @@ export class CourseService {
     );
   }
 
-  createContent(chapterId: number, content: Content) {
-    return this.http.post('http://localhost:8080/chapter/' + chapterId + '/content', content, {
+  createContent(chapterId: number, content: Content): Observable<Content> {
+    return this.http.post<Content>('http://localhost:8080/chapter/' + chapterId + '/content', content, {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    }).pipe(
+      delay(300),
+      timeout(5000)
+    );
+  }
+
+  deleteContent(contentId: number): Observable<void> {
+    return this.http.delete<void>('http://localhost:8080/content/' + contentId, {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }

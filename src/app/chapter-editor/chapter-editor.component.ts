@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Chapter} from '../entity/chapter';
-import {NzMessageService, NzNotificationService} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import {CourseService} from '../service/course.service';
 import {Content} from '../entity/content';
 import {Option} from '../entity/option';
@@ -15,10 +15,14 @@ export class ChapterEditorComponent implements OnInit {
   isLoading = true;
   renameModalVisible = false;
   newChapterName: string;
+  creatingMessage = false;
 
-  constructor(private notification: NzNotificationService, private courseService: CourseService) {
+  constructor(private notification: NzNotificationService,
+              private courseService: CourseService,
+              private modalService: NzModalService) {
     this.notification.config({
-      nzPlacement: 'bottomRight'
+      nzPlacement: 'bottomRight',
+      nzMaxStack: 2
     });
   }
 
@@ -31,8 +35,8 @@ export class ChapterEditorComponent implements OnInit {
   contents: Content[];
   renamingChapter = false;
 
-  plainContent: string;
-  questionContent: string;
+  plainContent = '';
+  questionContent = '';
   correctAnswer = 0;
   options: Option[];
 
@@ -61,7 +65,7 @@ export class ChapterEditorComponent implements OnInit {
     this.messageType = (this.messageType === 'plain' ? 'question' : 'plain');
   }
 
-  addMessage() {
+  createMessage() {
     let contentText = this.messageType === 'plain' ? this.plainContent : this.questionContent;
     contentText = contentText.trim();
     if (contentText.length === 0 || contentText.length > 80) {
@@ -74,9 +78,11 @@ export class ChapterEditorComponent implements OnInit {
       return;
     }
 
-    // TODO: loading here
+    this.creatingMessage = true;
 
-    this.options[this.correctAnswer - 1].isCorrect = true;
+    if (this.messageType === 'question') {
+      this.options[this.correctAnswer - 1].isCorrect = true;
+    }
 
     const content: Content = {
       id: -1,
@@ -92,12 +98,14 @@ export class ChapterEditorComponent implements OnInit {
     this.courseService.createContent(this.chapter.id, content).subscribe(
       (newContent: Content) => {
         this.contents.push(newContent);
-        console.log(newContent);
+        this.clearContent();
+        this.creatingMessage = false;
       }
     );
   }
 
   private checkOptions(): boolean {
+    // TODO: finish it
     return false;
   }
 
@@ -139,10 +147,34 @@ export class ChapterEditorComponent implements OnInit {
   }
 
   deleteContent(content: Content) {
-    this.notification.error('出现错误', '功能还未上线，敬请期待');
+    this.modalService.confirm({
+      nzTitle: '确定删除这个消息吗？',
+      nzContent: '<b style="color: red;">删除消息可能导致学生端不一致问题，且删除不可恢复，确定删除吗？</b>',
+      nzOkText: '仍要删除',
+      nzOkType: 'danger',
+      nzOnOk: () => {
+        this.contents.splice(this.contents.indexOf(content), 1);
+        this.courseService.deleteContent(content.id).subscribe(
+          () => {
+            this.notification.success('成功删除消息', '内容为 “' + content.text + '”的消息已成功被删除')
+          }
+        );
+      },
+      nzCancelText: '我再想想',
+    });
   }
 
   handleRenameCancel() {
     this.renameModalVisible = false;
+  }
+
+  clearContent() {
+    this.plainContent = '';
+    this.questionContent = '';
+    this.correctAnswer = 0;
+    for (const option of this.options) {
+      option.isCorrect = false;
+      option.text = '';
+    }
   }
 }

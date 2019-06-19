@@ -21,7 +21,8 @@ export class CourseChapterComponent implements OnInit {
     private courseService: CourseService
   ) {
     this.notification.config({
-      nzPlacement: 'bottomRight'
+      nzPlacement: 'bottomRight',
+      nzMaxStack: 2
     });
   }
   id: number;

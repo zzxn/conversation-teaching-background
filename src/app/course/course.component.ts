@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import {CourseService} from '../service/course.service';
 import {Course} from '../entity/course';
+import {NzButtonComponent} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-course',
@@ -14,6 +15,9 @@ export class CourseComponent implements OnInit {
   isLoading = true;
   isCollapsed = false;
   course: Course;
+  applying = false;
+  nameValid = true;
+  descriptionValid = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,4 +35,25 @@ export class CourseComponent implements OnInit {
     );
   }
 
+  applyModify() {
+    // console.log(this.user);
+    if (this.applying || !this.nameValid || !this.descriptionValid) {
+      return;
+    }
+    this.applying = true;
+    this.courseService.updateCourse(this.course)
+      .subscribe(
+        () => {
+          console.log('success!!!!!!!!!!');
+          this.applying = false;
+        }
+      );
+  }
+
+  makeEditable(inputElement: HTMLInputElement | HTMLTextAreaElement, buttonElement: NzButtonComponent) {
+    // we must do it in setTimeout() because of the limitation of Angular
+    inputElement.readOnly = false;
+    inputElement.focus();
+    buttonElement.el.hidden = true;
+  }
 }

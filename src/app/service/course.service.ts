@@ -44,6 +44,17 @@ export class CourseService {
     );
   }
 
+  updateCourse(course: Course): Observable<void> {
+    return this.http.put<void>('http://localhost:8080/course/' + course.id, course, {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    }).pipe(
+      delay(300),
+      timeout(5000)
+    );
+  }
+
   getAllChapterOfCourse(courseId: number): Observable<Chapter[]> {
     return this.http.get<Chapter[]>('http://localhost:8080/course/' + courseId + '/chapter', {
       headers: {

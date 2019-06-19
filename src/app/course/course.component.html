@@ -45,7 +45,7 @@
                        [(ngModel)]="course.name"/>
               </div>
               <div nz-col [nzSpan]="4">
-                <button #modifyCourseName (click)="0" nz-button [nzType]="'dashed'">
+                <button #modifyCourseName (click)="makeEditable(courseName, modifyCourseName)" nz-button [nzType]="'dashed'">
                   <i nz-icon nzType="edit" nzTheme="outline"></i>编辑
                 </button>
               </div>
@@ -64,7 +64,7 @@
                 </textarea>
               </div>
               <div nz-col [nzSpan]="4">
-                <button #modifyDescription (click)="0" nz-button [nzType]="'dashed'">
+                <button #modifyDescription (click)="makeEditable(description, modifyDescription)" nz-button [nzType]="'dashed'">
                   <i nz-icon nzType="edit" nzTheme="outline"></i>编辑
                 </button>
               </div>
@@ -73,7 +73,7 @@
         </nz-form-item>
         <nz-form-item>
           <nz-form-control [nzOffset]="4">
-            <button (click)="0" nz-button [nzType]="'primary'" style="margin-top: 30px">
+            <button [disabled]="applying || (courseName.readOnly && description.readOnly)" [nzLoading]="applying" (click)="applyModify()" nz-button [nzType]="'primary'" style="margin-top: 30px">
               <i nz-icon [nzType]="'reload'"></i>
               应用更改
             </button>

@@ -3,7 +3,8 @@ import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {CourseService} from '../service/course.service';
 import {Course} from '../entity/course';
-import {NzButtonComponent, NzNotificationService} from 'ng-zorro-antd';
+import {NzButtonComponent, NzNotificationService, UploadFile} from 'ng-zorro-antd';
+import {Observable, Observer} from 'rxjs';
 
 @Component({
   selector: 'app-course',
@@ -21,6 +22,8 @@ export class CourseComponent implements OnInit {
   deleteModalVisible = false;
   assureDeleteText: string;
   deletingCourse = false;
+  imageLoading = false;
+  imageUrl: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,6 +31,10 @@ export class CourseComponent implements OnInit {
     private courseService: CourseService,
     private notification: NzNotificationService
   ) {
+    this.notification.config({
+      nzPlacement: 'bottomRight',
+      nzMaxStack: 2
+    });
   }
 
   ngOnInit() {
@@ -35,6 +42,7 @@ export class CourseComponent implements OnInit {
     this.courseService.getCourseById(this.id).subscribe(
       (course: Course) => {
         this.course = course;
+        this.imageUrl = this.course.image;
         this.isLoading = false;
       }
     );
@@ -87,5 +95,67 @@ export class CourseComponent implements OnInit {
         console.log(error);
     }
     );
+  }
+
+  beforeUpload = (file: File) => {
+    return new Observable((observer: Observer<boolean>) => {
+      console.log(file.name);
+      const isJPG = file.type === 'image/jpeg';
+      if (!isJPG) {
+        this.notification.error('You can only upload JPG file!', '');
+        observer.complete();
+        return;
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.notification.error('Image must smaller than 2MB!', '');
+        observer.complete();
+        return;
+      }
+      // check height
+      this.checkImageDimension(file).then(dimensionRes => {
+        if (!dimensionRes) {
+          this.notification.error('Image only 300x300 above', '');
+          observer.complete();
+          return;
+        }
+
+        observer.next(isJPG && isLt2M && dimensionRes);
+        observer.complete();
+      });
+    });
+  };
+
+  private checkImageDimension(file: File): Promise<boolean> {
+    return new Promise(resolve => {
+      const img = new Image(); // create image
+      img.src = window.URL.createObjectURL(file);
+      img.onload = () => {
+        const width = img.naturalWidth;
+        const height = img.naturalHeight;
+        // tslint:disable-next-line:no-non-null-assertion
+        window.URL.revokeObjectURL(img.src!);
+        resolve(width === height && width >= 300);
+      };
+    });
+  }
+
+  handleChange(info: { file: UploadFile }): void {
+    switch (info.file.status) {
+      case 'uploading':
+        this.imageLoading = true;
+        break;
+      case 'done':
+        // Get this url from response in real world.
+        this.imageLoading = false;
+        this.course.image = 'http://adweb-image.oss-cn-shanghai.aliyuncs.com/course-image-' + this.course.id + '.jpg';
+        this.imageUrl = this.course.image + '?s=' + Math.random();
+        this.notification.success('成功上传课程图片', '成功上传课程图片，已经生效');
+        break;
+      case 'error':
+        this.notification.error('网络异常', '网络异常或服务器出错');
+        this.imageLoading = false;
+        break;
+    }
   }
 }

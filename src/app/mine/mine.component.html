@@ -33,8 +33,8 @@
               (nzChange)="handleChange($event)"
             >
               <ng-container *ngIf="!this.user.headSculpture">
-                <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
-                <div class="ant-upload-text">Upload</div>
+                <i class="upload-icon" nz-icon [nzType]="avatarLoading ? 'loading' : 'plus'"></i>
+                <div class="ant-upload-text">上传头像</div>
               </ng-container>
               <img style="width: 87px" *ngIf="this.user.headSculpture" [src]="avatarUrl" class="avatar"/>
             </nz-upload>

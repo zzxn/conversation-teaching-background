@@ -28,6 +28,28 @@
     <nz-content *ngIf="!isLoading" class="course-info" style="background:#fff; padding: 32px; min-height: 280px;">
       <form nz-form>
 
+        <div>
+          <nz-form-item style="display: inline-block">
+            <nz-form-control nzOffset="2" [nzSm]="8" [nzXs]="24">
+              <nz-upload
+                class="avatar-uploader"
+                [nzAction]="'http://localhost:8080/upload-course-image/' + course.id"
+                nzName="image"
+                nzListType="picture-card"
+                [nzShowUploadList]="false"
+                [nzBeforeUpload]="beforeUpload"
+                (nzChange)="handleChange($event)"
+              >
+                <ng-container *ngIf="!course.image">
+                  <i class="upload-icon" nz-icon [nzType]="'plus'"></i>
+                  <div class="ant-upload-text">上传图片</div>
+                </ng-container>
+                <img style="width: 87px" *ngIf="course.image" [src]="imageUrl" class="avatar"/>
+              </nz-upload>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
         <nz-form-item>
           <nz-form-label nzRequired [nzSm]="4" [nzXs]="24" nzFor="courseId">课程id</nz-form-label>
           <nz-form-control [nzSm]="4" [nzXs]="24">

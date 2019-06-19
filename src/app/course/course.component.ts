@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {Router, ActivatedRoute, ParamMap} from '@angular/router';
+import {switchMap} from 'rxjs/operators';
 import {CourseService} from '../service/course.service';
 import {Course} from '../entity/course';
 import {NzButtonComponent} from 'ng-zorro-antd';
@@ -23,7 +23,8 @@ export class CourseComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private courseService: CourseService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.id = +this.route.snapshot.paramMap.get('id');
@@ -48,6 +49,14 @@ export class CourseComponent implements OnInit {
           this.applying = false;
         }
       );
+  }
+
+  validateCourseName(courseName: string): boolean {
+    return courseName.length > 0 && courseName.length <= 32;
+  }
+
+  validateCourseDescription(descrption: string): boolean {
+    return descrption.length <= 512;
   }
 
   makeEditable(inputElement: HTMLInputElement | HTMLTextAreaElement, buttonElement: NzButtonComponent) {

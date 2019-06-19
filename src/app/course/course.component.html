@@ -32,20 +32,23 @@
           <nz-form-label nzRequired [nzSm]="4" [nzXs]="24" nzFor="courseId">课程id</nz-form-label>
           <nz-form-control [nzSm]="4" [nzXs]="24">
             <input nz-input id="courseId" name="courseId" type="text" disabled [readOnly]="true"
-                   [(ngModel)]="course.id"/>
+                   [value]="course.id"/>
           </nz-form-control>
         </nz-form-item>
 
         <nz-form-item>
           <nz-form-label nzRequired [nzSm]="4" [nzXs]="24" nzFor="courseName">课程名</nz-form-label>
-          <nz-form-control [nzSm]="20" [nzXs]="24">
+          <nz-form-control [nzValidateStatus]="validateCourseName(courseName.value) ? 'success' : 'error'" [nzSm]="20"
+                           [nzXs]="24">
             <div nz-row [nzGutter]="8">
               <div nz-col [nzSpan]="16">
                 <input #courseName nz-input id="courseName" name="courseName" type="text" [readOnly]="true"
                        [(ngModel)]="course.name"/>
+                <nz-form-explain *ngIf="!validateCourseName(courseName.value)">课程名只能是 1 到 32 个字符</nz-form-explain>
               </div>
               <div nz-col [nzSpan]="4">
-                <button #modifyCourseName (click)="makeEditable(courseName, modifyCourseName)" nz-button [nzType]="'dashed'">
+                <button #modifyCourseName (click)="makeEditable(courseName, modifyCourseName)" nz-button
+                        [nzType]="'dashed'">
                   <i nz-icon nzType="edit" nzTheme="outline"></i>编辑
                 </button>
               </div>
@@ -55,16 +58,20 @@
 
         <nz-form-item>
           <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="description">课程描述</nz-form-label>
-          <nz-form-control [nzSm]="20" [nzXs]="24">
+          <nz-form-control [nzValidateStatus]="validateCourseDescription(description.value) ? 'success' : 'error'"
+                           [nzSm]="20" [nzXs]="24">
             <div nz-row [nzGutter]="8">
               <div nz-col [nzSpan]="16">
                 <textarea #description nz-input id="description" name="description" type="text" [readOnly]="true"
                           [(ngModel)]="course.description" placeholder="在这里输入课程描述"
                           [nzAutosize]="{ minRows: 2, maxRows: 6 }" ngModel>
                 </textarea>
+                <nz-form-explain *ngIf="!validateCourseDescription(description.value)">课程描述不能超过 512 个字符
+                </nz-form-explain>
               </div>
               <div nz-col [nzSpan]="4">
-                <button #modifyDescription (click)="makeEditable(description, modifyDescription)" nz-button [nzType]="'dashed'">
+                <button #modifyDescription (click)="makeEditable(description, modifyDescription)" nz-button
+                        [nzType]="'dashed'">
                   <i nz-icon nzType="edit" nzTheme="outline"></i>编辑
                 </button>
               </div>
@@ -73,7 +80,8 @@
         </nz-form-item>
         <nz-form-item>
           <nz-form-control [nzOffset]="4">
-            <button [disabled]="applying || (courseName.readOnly && description.readOnly)" [nzLoading]="applying" (click)="applyModify()" nz-button [nzType]="'primary'" style="margin-top: 30px">
+            <button [disabled]="applying || (courseName.readOnly && description.readOnly)" [nzLoading]="applying"
+                    (click)="applyModify()" nz-button [nzType]="'primary'" style="margin-top: 30px">
               <i nz-icon [nzType]="'reload'"></i>
               应用更改
             </button>

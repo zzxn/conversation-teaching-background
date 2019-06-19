@@ -45,7 +45,7 @@
           <nz-form-label nzRequired [nzSm]="2" [nzXs]="24" nzFor="username">用户名</nz-form-label>
           <nz-form-control [nzSm]="8" [nzXs]="24">
             <input nz-input id="username" name="username" type="text" disabled [readOnly]="true"
-                   [(ngModel)]="user.username"/>
+                   [value]="user.username"/>
           </nz-form-control>
         </nz-form-item>
 

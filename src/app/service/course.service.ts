@@ -55,6 +55,29 @@ export class CourseService {
     );
   }
 
+  createCourse(courseName: string): Observable<Course> {
+    const uuid = localStorage.getItem('uuid');
+    return this.http.post<Course>('http://localhost:8080/teacher/' + uuid + '/course/' + courseName, null, {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    }).pipe(
+      delay(300),
+      timeout(5000)
+    );
+  }
+
+  deleteCourse(courseId: number): Observable<void> {
+    return this.http.delete<void>('http://localhost:8080/course/' + courseId, {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    }).pipe(
+      delay(300),
+      timeout(5000)
+    );
+  }
+
   getAllChapterOfCourse(courseId: number): Observable<Chapter[]> {
     return this.http.get<Chapter[]>('http://localhost:8080/course/' + courseId + '/chapter', {
       headers: {
@@ -79,18 +102,6 @@ export class CourseService {
 
   getAllStudentOfCourse(courseId: number): Observable<Student[]> {
     return this.http.get<Student[]>('http://localhost:8080/course/' + courseId + '/student', {
-      headers: {
-        'Authorization': 'Bearer ' + this.authService.getToken()
-      }
-    }).pipe(
-      delay(300),
-      timeout(5000)
-    );
-  }
-
-  createCourse(courseName: string): Observable<Course> {
-    const uuid = localStorage.getItem('uuid');
-    return this.http.post<Course>('http://localhost:8080/teacher/' + uuid + '/course/' + courseName, null, {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }

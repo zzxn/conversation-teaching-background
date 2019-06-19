@@ -3,7 +3,7 @@ import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {CourseService} from '../service/course.service';
 import {Course} from '../entity/course';
-import {NzButtonComponent} from 'ng-zorro-antd';
+import {NzButtonComponent, NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-course',
@@ -18,11 +18,15 @@ export class CourseComponent implements OnInit {
   applying = false;
   nameValid = true;
   descriptionValid = true;
+  deleteModalVisible = false;
+  assureDeleteText: string;
+  deletingCourse = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private notification: NzNotificationService
   ) {
   }
 
@@ -64,5 +68,24 @@ export class CourseComponent implements OnInit {
     inputElement.readOnly = false;
     inputElement.focus();
     buttonElement.el.hidden = true;
+  }
+
+  deleteCourse() {
+    this.deleteModalVisible = true;
+    if (this.assureDeleteText !== '删除') {
+      this.notification.error('请确认删除', '请在输入框输入“删除”以确认删除本课程');
+      return;
+    }
+    this.deletingCourse = true;
+    this.courseService.deleteCourse(this.course.id).subscribe(
+      () => {
+        this.router.navigateByUrl('/');
+      },
+    (error) => {
+        this.deletingCourse = false;
+        this.notification.error('删除失败', '由于网络原因或令牌失效，删除课程失败');
+        console.log(error);
+    }
+    );
   }
 }

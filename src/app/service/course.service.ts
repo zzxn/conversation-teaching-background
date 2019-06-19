@@ -88,6 +88,18 @@ export class CourseService {
     );
   }
 
+  createCourse(courseName: string): Observable<Course> {
+    const uuid = localStorage.getItem('uuid');
+    return this.http.post<Course>('http://localhost:8080/teacher/' + uuid + '/course/' + courseName, null, {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    }).pipe(
+      delay(300),
+      timeout(5000)
+    );
+  }
+
   createChapter(courseId: number, chapterName: string): Observable<Chapter> {
     return this.http.post<Chapter>('http://localhost:8080/course/' + courseId + '/chapter/' + chapterName, null, {
       headers: {

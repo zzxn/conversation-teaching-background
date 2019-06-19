@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {CourseService} from '../service/course.service';
 import {Course} from '../entity/course';
-import {NzModalService} from 'ng-zorro-antd';
+import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-course-management',
@@ -13,8 +13,10 @@ export class CourseManagementComponent implements OnInit {
   isLoading = true;
 
   courses: Course[];
+  creatingCourse = false;
 
-  constructor(private router: Router, private courseService: CourseService, private modalService: NzModalService) {
+  constructor(private router: Router, private courseService: CourseService, private modalService: NzModalService,
+              private notification: NzNotificationService) {
   }
 
   ngOnInit() {
@@ -36,5 +38,24 @@ export class CourseManagementComponent implements OnInit {
 
   enterCourse(id: number) {
     this.router.navigateByUrl('/course/' + id);
+  }
+
+  createCourse(name: string) {
+    name = name ? name.trim() : name;
+    if (name.length === 0) {
+      this.notification.error('课程名不能为空', '请至少输入 1 个字符');
+      return;
+    } else if (name.length > 32) {
+      this.notification.error('课程名过长', '课程名不应超过 32 个字符');
+      return;
+    }
+
+    this.creatingCourse = true;
+    this.courseService.createCourse(name).subscribe(
+      (course: Course) => {
+        this.courses.push(course);
+        this.creatingCourse = false;
+      }
+    );
   }
 }

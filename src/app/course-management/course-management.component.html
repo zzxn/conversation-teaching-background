@@ -10,19 +10,25 @@
     <nz-content id="content" style="background:#fff; padding: 32px;">
       <div class="input-line">
         <label style="display: none;">输入新课程名</label>
-        <input placeholder="请输入新课程名" class="new-course-input" nz-input type="text"/>
-        <button nz-button nzType="primary">
+        <input #courseName placeholder="请输入新课程名" class="new-course-input" nz-input type="text"/>
+        <button (click)="createCourse(courseName.value)" [nzLoading]="creatingCourse" nz-button nzType="primary">
           <i nz-icon nzType="plus"></i>创建课程
         </button>
       </div>
 
-      <nz-list [nzDataSource]="courses" [nzRenderItem]="entry" [nzGrid]="{ gutter: 16, xs: 24, sm: 12, md: 12, lg: 12, xl: 8 }">
+      <nz-list [nzDataSource]="courses" [nzRenderItem]="entry" [nzGrid]="{ gutter: 16, xs: 24, sm: 12, md: 8, lg: 8, xl: 6 }">
         <ng-template #entry let-item>
           <nz-list-item class="course-entry" (click)="enterCourse(item.id)" [nzContent]="nzContent">
             <ng-template #nzContent>
-              <nz-card class="card" [nzTitle]="item.id + ' ' + item.name">
-                {{ item.description ? item.description : '（暂无，建议添加课程描述）' }}
+              <nz-card [nzCover]="coverTemplate" class="card">
+                <nz-card-meta
+                  [nzTitle]="item.id + ' ' + item.name"
+                  [nzDescription]="item.description ? item.description.substr(0, 42) + (item.description.length > 42 ? ' ……' : '') : '（暂无，建议添加课程描述）'"
+                ></nz-card-meta>
               </nz-card>
+            </ng-template>
+            <ng-template #coverTemplate>
+              <img alt="example" src="https://cdn.nlark.com/yuque/0/2019/jpeg/285274/1552962638649-assets/web-upload/25d4b7d6-e41b-431d-9b5b-43fa3b575b39.jpeg" />
             </ng-template>
           </nz-list-item>
         </ng-template>

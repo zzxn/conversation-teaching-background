@@ -93,8 +93,8 @@ export class CourseChapterComponent implements OnInit {
     });
   }
 
-  createChapter(name: string) {
-    name = name.trim();
+  createChapter(nameInput: HTMLInputElement) {
+    const name = nameInput.value.trim();
     if (name.length > 50) {
       this.notification.error('章节名过长', '章节名不能超过50个字符');
     } else if (name.length === 0) {
@@ -104,6 +104,7 @@ export class CourseChapterComponent implements OnInit {
       this.courseService.createChapter(this.course.id, name).subscribe(
         (chapter: Chapter) => {
           this.chapters.push(chapter);
+          nameInput.value = '';
           this.creatingChapter = false;
         },
         (errorMsg) => {

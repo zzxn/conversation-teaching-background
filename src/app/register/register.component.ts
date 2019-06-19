@@ -82,7 +82,7 @@ export class RegisterComponent {
   emailValidator = (control: FormControl): { [s: string]: boolean } => {
     if (!control.value) {
       return {required: true};
-    } else if (!/^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,})$/.test(control.value)) {
+    } else if (!/^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+([a-zA-Z.]*)$/.test(control.value)) {
       return {invalid: true};
     }
     return {};

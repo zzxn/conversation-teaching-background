@@ -99,7 +99,7 @@ export class MineComponent implements OnInit {
   }
 
   validateEmail(email: string) {
-    const reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,})$/;
+    const reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+([a-zA-Z.]*)$/;
     this.emailValid = reg.test(email);
     return this.emailValid;
   }

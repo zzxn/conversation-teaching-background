@@ -77,6 +77,7 @@ export class AuthService {
   }
 
   logout() {
+    localStorage.removeItem('uuid');
     localStorage.removeItem('token');
   }
 

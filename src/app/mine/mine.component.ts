@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../entity/user';
 import {UserService} from '../service/user.service';
-import {NzButtonComponent, NzModalService, NzNotificationService, UploadFile} from 'ng-zorro-antd';
+import {NzButtonComponent, NzNotificationService, UploadFile} from 'ng-zorro-antd';
 import {Observable, Observer} from 'rxjs';
-import {until} from 'selenium-webdriver';
+import {Config} from '../config';
 
 @Component({
   selector: 'app-mine',
@@ -20,14 +20,14 @@ export class MineComponent implements OnInit {
   applyButtonType = 'primary';
   avatarLoading = false;
   avatarUrl: string;
+  uploadUrl = Config.serverUrl;
 
   nicknameValid = true;
   emailValid = true;
 
   constructor(
     private userService: UserService,
-    private notification: NzNotificationService,
-    private modalService: NzModalService) {
+    private notification: NzNotificationService) {
     this.notification.config({
       nzPlacement: 'bottomRight',
       nzMaxStack: 2
@@ -102,7 +102,6 @@ export class MineComponent implements OnInit {
   }
 
   makeEditable(inputElement: HTMLInputElement, buttonElement: NzButtonComponent) {
-    // we must do it in setTimeout() because of the limitation of Angular
     inputElement.readOnly = false;
     inputElement.focus();
     buttonElement.el.hidden = true;
@@ -136,6 +135,25 @@ export class MineComponent implements OnInit {
     });
   };
 
+  handleChange(info: { file: UploadFile }): void {
+    switch (info.file.status) {
+      case 'uploading':
+        this.avatarLoading = true;
+        break;
+      case 'done':
+        // Get this url from response in real world.
+        this.avatarLoading = false;
+        this.user.headSculpture = Config.imageStorageUrl + '/' + this.user.uuid + '.jpg';
+        this.avatarUrl = this.user.headSculpture + '?s=' + Math.random();
+        this.notification.success('成功上传头像', '头像修改成功，已经生效');
+        break;
+      case 'error':
+        this.notification.error('网络异常', '网络异常或服务器出错');
+        this.avatarLoading = false;
+        break;
+    }
+  }
+
   private checkImageDimension(file: File): Promise<boolean> {
     return new Promise(resolve => {
       const img = new Image(); // create image
@@ -148,24 +166,5 @@ export class MineComponent implements OnInit {
         resolve(width === height && width >= 300);
       };
     });
-  }
-
-  handleChange(info: { file: UploadFile }): void {
-    switch (info.file.status) {
-      case 'uploading':
-        this.avatarLoading = true;
-        break;
-      case 'done':
-        // Get this url from response in real world.
-        this.avatarLoading = false;
-        this.user.headSculpture = 'http://adweb-image.oss-cn-shanghai.aliyuncs.com/' + this.user.uuid + '.jpg';
-        this.avatarUrl = this.user.headSculpture + '?s=' + Math.random();
-        this.notification.success('成功上传头像', '头像修改成功，已经生效');
-        break;
-      case 'error':
-        this.notification.error('网络异常', '网络异常或服务器出错');
-        this.avatarLoading = false;
-        break;
-    }
   }
 }

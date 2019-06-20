@@ -1,12 +1,12 @@
 <nz-layout>
   <nz-sider
-    nzCollapsible
     [(nzCollapsed)]="isCollapsed"
     [nzBreakpoint]="'sm'"
     [nzCollapsedWidth]="0"
     [nzZeroTrigger]="zeroTrigger"
+    nzCollapsible
   >
-    <ul nz-menu [nzMode]="'inline'" style="height:100%" [nzInlineCollapsed]="isCollapsed">
+    <ul [nzInlineCollapsed]="isCollapsed" [nzMode]="'inline'" nz-menu style="height:100%">
       <li nz-menu-item><a routerLink="/course-management"><i nz-icon type="rollback"></i>返回课程列表</a></li>
       <li nz-menu-item><a routerLink="/course/{{id}}/info"><i nz-icon type="info-circle"></i>基本信息</a></li>
       <li nz-menu-item nzSelected><a routerLink="/course/{{id}}/chapter"><i nz-icon type="profile"></i>所有章节</a></li>
@@ -21,15 +21,16 @@
     </nz-page-header>
     <nz-spin
       *ngIf="chapterLoading || courseLoading"
-      style="text-align: center; margin: 32px;"
       [nzIndicator]="indicatorTemplate"
-      nzSimple></nz-spin>
-    <ng-template #indicatorTemplate><i nz-icon type="loading" style="font-size: 48px;"></i></ng-template>
+      nzSimple
+      style="text-align: center; margin: 32px;"></nz-spin>
+    <ng-template #indicatorTemplate><i nz-icon style="font-size: 48px;" type="loading"></i></ng-template>
     <nz-content *ngIf="!courseLoading && !chapterLoading" style="background:#fff; padding: 32px; min-height: 280px;">
       <div class="input-line">
         <label style="display: none;">输入新章节名</label>
-        <input [disabled]="creatingChapter" #chapterName  placeholder="请输入新章节名" class="new-chapter-input" nz-input type="text"/>
-        <button [nzLoading]="creatingChapter" (click)="createChapter(chapterName)" nz-button nzType="primary">
+        <input #chapterName [disabled]="creatingChapter" class="new-chapter-input" nz-input placeholder="请输入新章节名"
+               type="text"/>
+        <button (click)="createChapter(chapterName)" [nzLoading]="creatingChapter" nz-button nzType="primary">
           <i nz-icon nzType="plus"></i>创建章节
         </button>
       </div>
@@ -41,5 +42,5 @@
   </nz-layout>
 </nz-layout>
 <ng-template #zeroTrigger>
-  <i nz-icon type="menu-fold" nzTheme="outline"></i>
+  <i nz-icon nzTheme="outline" type="menu-fold"></i>
 </ng-template>

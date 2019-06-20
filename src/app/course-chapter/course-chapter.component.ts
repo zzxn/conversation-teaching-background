@@ -12,6 +12,15 @@ import {Course} from '../entity/course';
 })
 export class CourseChapterComponent implements OnInit {
 
+  id: number;
+  courseLoading = true;
+  chapterLoading = true;
+  creatingChapter = false;
+  isCollapsed = false;
+  course: Course;
+  chapters: Chapter[];
+  private chapterDirty = false;
+
   constructor(
     private route: ActivatedRoute,
     private modalService: NzModalService,
@@ -24,17 +33,6 @@ export class CourseChapterComponent implements OnInit {
       nzMaxStack: 2
     });
   }
-  id: number;
-  courseLoading = true;
-  chapterLoading = true;
-  creatingChapter = false;
-  isCollapsed = false;
-
-  course: Course;
-
-  chapters: Chapter[];
-
-  private chapterDirty = false;
 
   ngOnInit() {
     this.id = +this.route.snapshot.paramMap.get('id');

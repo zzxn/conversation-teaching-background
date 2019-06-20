@@ -5,6 +5,7 @@ import {Course} from '../entity/course';
 import {NzButtonComponent, NzNotificationService, UploadFile} from 'ng-zorro-antd';
 import {Observable, Observer} from 'rxjs';
 import {HttpErrorResponse} from '@angular/common/http';
+import {Config} from '../config';
 
 @Component({
   selector: 'app-course',
@@ -24,6 +25,7 @@ export class CourseComponent implements OnInit {
   deletingCourse = false;
   imageLoading = false;
   imageUrl: string;
+  uploadUrl = Config.serverUrl;
 
   constructor(
     private route: ActivatedRoute,
@@ -142,6 +144,25 @@ export class CourseComponent implements OnInit {
     });
   };
 
+  handleChange(info: { file: UploadFile }): void {
+    switch (info.file.status) {
+      case 'uploading':
+        this.imageLoading = true;
+        break;
+      case 'done':
+        // Get this url from response in real world.
+        this.imageLoading = false;
+        this.course.image = Config.imageStorageUrl + '/course-image-' + this.course.id + '.jpg';
+        this.imageUrl = this.course.image + '?s=' + Math.random();
+        this.notification.success('成功上传课程图片', '成功上传课程图片，已经生效');
+        break;
+      case 'error':
+        this.notification.error('网络异常', '网络异常或服务器出错');
+        this.imageLoading = false;
+        break;
+    }
+  }
+
   private checkImageDimension(file: File): Promise<boolean> {
     return new Promise(resolve => {
       const img = new Image(); // create image
@@ -154,24 +175,5 @@ export class CourseComponent implements OnInit {
         resolve(width === height && width >= 300);
       };
     });
-  }
-
-  handleChange(info: { file: UploadFile }): void {
-    switch (info.file.status) {
-      case 'uploading':
-        this.imageLoading = true;
-        break;
-      case 'done':
-        // Get this url from response in real world.
-        this.imageLoading = false;
-        this.course.image = 'http://adweb-image.oss-cn-shanghai.aliyuncs.com/course-image-' + this.course.id + '.jpg';
-        this.imageUrl = this.course.image + '?s=' + Math.random();
-        this.notification.success('成功上传课程图片', '成功上传课程图片，已经生效');
-        break;
-      case 'error':
-        this.notification.error('网络异常', '网络异常或服务器出错');
-        this.imageLoading = false;
-        break;
-    }
   }
 }

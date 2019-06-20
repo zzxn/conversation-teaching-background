@@ -16,6 +16,16 @@ export class ChapterEditorComponent implements OnInit {
   renameModalVisible = false;
   newChapterName: string;
   creatingMessage = false;
+  @Input()
+  chapter: Chapter;
+  @Output()
+  delete = new EventEmitter<Chapter>();
+  contents: Content[];
+  renamingChapter = false;
+  plainContent = '';
+  questionContent = '';
+  correctAnswer = 0;
+  options: Option[];
 
   constructor(private notification: NzNotificationService,
               private courseService: CourseService,
@@ -25,20 +35,6 @@ export class ChapterEditorComponent implements OnInit {
       nzMaxStack: 2
     });
   }
-
-  @Input()
-  chapter: Chapter;
-
-  @Output()
-  delete = new EventEmitter<Chapter>();
-
-  contents: Content[];
-  renamingChapter = false;
-
-  plainContent = '';
-  questionContent = '';
-  correctAnswer = 0;
-  options: Option[];
 
   ngOnInit() {
     this.courseService.getAllContentOfChapter(this.chapter.id).subscribe(
@@ -126,29 +122,6 @@ export class ChapterEditorComponent implements OnInit {
     this.renameModalVisible = true;
   }
 
-  private renameChapter() {
-    this.renamingChapter = true;
-    this.newChapterName = this.newChapterName.trim();
-
-    if (this.newChapterName.length > 50) {
-      this.notification.error('章节名过长', '章节名不能超过50个字符');
-      this.renamingChapter = false;
-      return;
-    } else if (this.newChapterName.length === 0) {
-      this.notification.error('章节名不能为空', '章节名至少需要1个字符');
-      this.renamingChapter = false;
-      return;
-    }
-
-    this.courseService.renameChapter(this.chapter.id, this.newChapterName).subscribe(
-      () => {
-        this.chapter.name = this.newChapterName;
-        this.renamingChapter = false;
-        this.renameModalVisible = false;
-      }
-    );
-  }
-
   modifyContent(content: Content) {
     this.notification.error('出现错误', '功能还未上线，敬请期待');
   }
@@ -191,5 +164,28 @@ export class ChapterEditorComponent implements OnInit {
       option.isCorrect = false;
       option.text = '';
     }
+  }
+
+  private renameChapter() {
+    this.renamingChapter = true;
+    this.newChapterName = this.newChapterName.trim();
+
+    if (this.newChapterName.length > 50) {
+      this.notification.error('章节名过长', '章节名不能超过50个字符');
+      this.renamingChapter = false;
+      return;
+    } else if (this.newChapterName.length === 0) {
+      this.notification.error('章节名不能为空', '章节名至少需要1个字符');
+      this.renamingChapter = false;
+      return;
+    }
+
+    this.courseService.renameChapter(this.chapter.id, this.newChapterName).subscribe(
+      () => {
+        this.chapter.name = this.newChapterName;
+        this.renamingChapter = false;
+        this.renameModalVisible = false;
+      }
+    );
   }
 }

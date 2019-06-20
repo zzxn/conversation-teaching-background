@@ -3,18 +3,20 @@ import {Observable, Observer} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {timeout} from 'rxjs/operators';
 import {Md5} from 'ts-md5';
+import {Config} from '../config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   redirectUrl = '/';
-  private _loginUrl = '/login';
-  private loginApiUrl = 'http://localhost:8080/login';
-  private registerApiUrl = 'http://localhost:8080/register';
+  private loginApiUrl = Config.serverUrl + '/login';
+  private registerApiUrl = Config.serverUrl + '/register';
 
   constructor(private http: HttpClient) {
   }
+
+  private _loginUrl = '/login';
 
   get loginUrl(): string {
     return this._loginUrl;
@@ -45,7 +47,7 @@ export class AuthService {
         },
         (error) => {
           if (error.hasOwnProperty('error') && error.error.code === 'auth:bad-name-pass') {
-              observer.error('用户名或密码错误');
+            observer.error('用户名或密码错误');
           }
           console.error(error);
           observer.error('网络异常');
@@ -70,7 +72,7 @@ export class AuthService {
         },
         (error) => {
           if (error.hasOwnProperty('error') && error.error.code === 'auth:dup-name') {
-              observer.error('用户名重复');
+            observer.error('用户名重复');
           }
           console.error(error);
           observer.error('网络异常');

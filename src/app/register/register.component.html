@@ -1,9 +1,9 @@
-<form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+<form (ngSubmit)="submitForm()" [formGroup]="validateForm" class="login-form" nz-form>
   <h2 class="login-head">注册</h2>
   <nz-form-item>
     <nz-form-control>
       <nz-input-group [nzPrefix]="prefixUser">
-        <input type="text" nz-input formControlName="username" placeholder="用户名" />
+        <input formControlName="username" nz-input placeholder="用户名" type="text"/>
       </nz-input-group>
       <nz-form-explain
         *ngIf="validateForm.get('username')?.dirty"
@@ -27,7 +27,7 @@
   <nz-form-item>
     <nz-form-control>
       <nz-input-group [nzPrefix]="prefixLock">
-        <input type="password" nz-input formControlName="password" placeholder="密码" />
+        <input formControlName="password" nz-input placeholder="密码" type="password"/>
       </nz-input-group>
       <nz-form-explain
         *ngIf="validateForm.get('password')?.dirty"
@@ -51,7 +51,7 @@
   <nz-form-item>
     <nz-form-control>
       <nz-input-group [nzPrefix]="prefixEmail">
-        <input type="email" nz-input formControlName="email" placeholder="邮箱" />
+        <input formControlName="email" nz-input placeholder="邮箱" type="email"/>
       </nz-input-group>
       <nz-form-explain *ngIf="validateForm.get('email')?.dirty">
         <ng-container *ngIf="validateForm.get('email')?.hasError('required')">
@@ -65,9 +65,9 @@
   </nz-form-item>
   <nz-form-item>
     <nz-form-control>
-      <nz-alert *ngIf="errorMsg" nzShowIcon nzType="error" [nzMessage]="errorMsg"></nz-alert>
-      <button [disabled]="!validateForm.valid || registering" nz-button class="login-form-button" [nzType]="'primary'">
-        <i nz-icon type="reload" [spin]="true" *ngIf="registering"></i>注册
+      <nz-alert *ngIf="errorMsg" [nzMessage]="errorMsg" nzShowIcon nzType="error"></nz-alert>
+      <button [disabled]="!validateForm.valid || registering" [nzType]="'primary'" class="login-form-button" nz-button>
+        <i *ngIf="registering" [spin]="true" nz-icon type="reload"></i>注册
       </button>
       已经注册？
       <a routerLink="/login">点此登录</a>

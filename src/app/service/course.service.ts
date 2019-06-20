@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Observable, Observer} from 'rxjs';
 import {Course} from '../entity/course';
-import {delay, timeout} from 'rxjs/operators';
+import {timeout} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from './auth.service';
 import {Chapter} from '../entity/chapter';
 import {Content} from '../entity/content';
 import {Student} from '../entity/student';
 import {StudentStatistics} from '../entity/student-statistics';
+import {Config} from '../config';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class CourseService {
         observer.error('未登录');
       });
     }
-    return this.http.get<Course[]>('http://localhost:8080/teacher/' + uuid + '/course', {
+    return this.http.get<Course[]>(Config.serverUrl + '/teacher/' + uuid + '/course', {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
@@ -34,7 +35,7 @@ export class CourseService {
   }
 
   getCourseById(id: number): Observable<Course> {
-    return this.http.get<Course>('http://localhost:8080/course/' + id, {
+    return this.http.get<Course>(Config.serverUrl + '/course/' + id, {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
@@ -44,7 +45,7 @@ export class CourseService {
   }
 
   updateCourse(course: Course): Observable<void> {
-    return this.http.put<void>('http://localhost:8080/course/' + course.id, course, {
+    return this.http.put<void>(Config.serverUrl + '/course/' + course.id, course, {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
@@ -55,7 +56,7 @@ export class CourseService {
 
   createCourse(courseName: string): Observable<Course> {
     const uuid = localStorage.getItem('uuid');
-    return this.http.post<Course>('http://localhost:8080/teacher/' + uuid + '/course/' + courseName, null, {
+    return this.http.post<Course>(Config.serverUrl + '/teacher/' + uuid + '/course/' + courseName, null, {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
@@ -65,7 +66,7 @@ export class CourseService {
   }
 
   deleteCourse(courseId: number): Observable<void> {
-    return this.http.delete<void>('http://localhost:8080/course/' + courseId, {
+    return this.http.delete<void>(Config.serverUrl + '/course/' + courseId, {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
@@ -75,7 +76,7 @@ export class CourseService {
   }
 
   getAllChapterOfCourse(courseId: number): Observable<Chapter[]> {
-    return this.http.get<Chapter[]>('http://localhost:8080/course/' + courseId + '/chapter', {
+    return this.http.get<Chapter[]>(Config.serverUrl + '/course/' + courseId + '/chapter', {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
@@ -85,7 +86,7 @@ export class CourseService {
   }
 
   getAllContentOfChapter(chapterId: number): Observable<Content[]> {
-    return this.http.get<Content[]>('http://localhost:8080/chapter/' + chapterId + '/content', {
+    return this.http.get<Content[]>(Config.serverUrl + '/chapter/' + chapterId + '/content', {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
@@ -95,7 +96,7 @@ export class CourseService {
   }
 
   getAllStudentOfCourse(courseId: number): Observable<Student[]> {
-    return this.http.get<Student[]>('http://localhost:8080/course/' + courseId + '/student', {
+    return this.http.get<Student[]>(Config.serverUrl + '/course/' + courseId + '/student', {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
@@ -105,7 +106,7 @@ export class CourseService {
   }
 
   createChapter(courseId: number, chapterName: string): Observable<Chapter> {
-    return this.http.post<Chapter>('http://localhost:8080/course/' + courseId + '/chapter/' + chapterName, null, {
+    return this.http.post<Chapter>(Config.serverUrl + '/course/' + courseId + '/chapter/' + chapterName, null, {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
@@ -115,7 +116,7 @@ export class CourseService {
   }
 
   deleteChapter(chapterId: number): Observable<void> {
-    return this.http.delete<void>('http://localhost:8080/chapter/' + chapterId, {
+    return this.http.delete<void>(Config.serverUrl + '/chapter/' + chapterId, {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
@@ -125,7 +126,7 @@ export class CourseService {
   }
 
   renameChapter(chapterId: number, chapterName: string): Observable<void> {
-    return this.http.post<void>('http://localhost:8080/chapter/' + chapterId + '/name/' + chapterName, null, {
+    return this.http.post<void>(Config.serverUrl + '/chapter/' + chapterId + '/name/' + chapterName, null, {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
@@ -135,7 +136,7 @@ export class CourseService {
   }
 
   createContent(chapterId: number, content: Content): Observable<Content> {
-    return this.http.post<Content>('http://localhost:8080/chapter/' + chapterId + '/content', content, {
+    return this.http.post<Content>(Config.serverUrl + '/chapter/' + chapterId + '/content', content, {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
@@ -145,7 +146,7 @@ export class CourseService {
   }
 
   deleteContent(contentId: number): Observable<void> {
-    return this.http.delete<void>('http://localhost:8080/content/' + contentId, {
+    return this.http.delete<void>(Config.serverUrl + '/content/' + contentId, {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
@@ -155,7 +156,7 @@ export class CourseService {
   }
 
   getStudentStatistics(courseId: number, studentUuid: string): Observable<StudentStatistics> {
-    return this.http.get<StudentStatistics>('http://localhost:8080/course/'
+    return this.http.get<StudentStatistics>(Config.serverUrl + '/course/'
       + courseId + '/student/' + studentUuid + '/statistics', {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()

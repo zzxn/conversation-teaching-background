@@ -1,34 +1,37 @@
 <nz-spin
   *ngIf="isLoading"
-  style="text-align: center; margin: 32px;"
   [nzIndicator]="indicatorTemplate"
-  nzSimple></nz-spin>
-<ng-template #indicatorTemplate><i nz-icon type="loading" style="font-size: 48px;"></i></ng-template>
+  nzSimple
+  style="text-align: center; margin: 32px;"></nz-spin>
+<ng-template #indicatorTemplate><i nz-icon style="font-size: 48px;" type="loading"></i></ng-template>
 
 <nz-layout *ngIf="!isLoading">
   <nz-layout>
     <nz-content id="content" style="background:#fff; padding: 32px;">
       <div class="input-line">
         <label style="display: none;">输入新课程名</label>
-        <input #courseName placeholder="请输入新课程名" class="new-course-input" nz-input type="text"/>
-        <button (click)="createCourse(courseName.value, courseList)" [nzLoading]="creatingCourse" nz-button nzType="primary">
+        <input #courseName class="new-course-input" nz-input placeholder="请输入新课程名" type="text"/>
+        <button (click)="createCourse(courseName.value, courseList)" [nzLoading]="creatingCourse" nz-button
+                nzType="primary">
           <i nz-icon nzType="plus"></i>创建课程
         </button>
       </div>
 
-      <nz-list #courseList  [nzDataSource]="courses" [nzRenderItem]="entry" [nzGrid]="{ gutter: 16, xs: 24, sm: 12, md: 8, lg: 8, xl: 6 }">
+      <nz-list #courseList [nzDataSource]="courses" [nzGrid]="{ gutter: 16, xs: 24, sm: 12, md: 8, lg: 8, xl: 6 }"
+               [nzRenderItem]="entry">
         <ng-template #entry let-item>
-          <nz-list-item class="course-entry" (click)="enterCourse(item.id)" [nzContent]="nzContent">
+          <nz-list-item (click)="enterCourse(item.id)" [nzContent]="nzContent" class="course-entry">
             <ng-template #nzContent>
               <nz-card [nzCover]="coverTemplate" class="card">
                 <nz-card-meta
-                  [nzTitle]="item.id + ' ' + item.name"
                   [nzDescription]="item.description ? item.description.substr(0, 42) + (item.description.length > 42 ? ' ……' : '') : '（暂无，建议添加课程描述）'"
+                  [nzTitle]="item.id + ' ' + item.name"
                 ></nz-card-meta>
               </nz-card>
             </ng-template>
             <ng-template #coverTemplate>
-              <div class="course-big-title-box" [style.background-image]="domSanitizer.bypassSecurityTrustStyle(cardStyleList[item.id % cardStyleList.length])">
+              <div [style.background-image]="domSanitizer.bypassSecurityTrustStyle(cardStyleList[item.id % cardStyleList.length])"
+                   class="course-big-title-box">
                 <h3 class="course-big-title">{{ item.name }}</h3>
               </div>
             </ng-template>
@@ -39,5 +42,5 @@
   </nz-layout>
 </nz-layout>
 <ng-template #zeroTrigger>
-  <i nz-icon type="menu-fold" nzTheme="outline"></i>
+  <i nz-icon nzTheme="outline" type="menu-fold"></i>
 </ng-template>

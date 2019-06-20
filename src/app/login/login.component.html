@@ -1,9 +1,9 @@
-<form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+<form (ngSubmit)="submitForm()" [formGroup]="validateForm" class="login-form" nz-form>
   <h2 class="login-head">登录</h2>
   <nz-form-item>
     <nz-form-control>
       <nz-input-group [nzPrefix]="prefixUser">
-        <input type="text" nz-input formControlName="username" placeholder="用户名" />
+        <input formControlName="username" nz-input placeholder="用户名" type="text"/>
       </nz-input-group>
       <nz-form-explain
         *ngIf="validateForm.get('username')?.dirty"
@@ -27,7 +27,7 @@
   <nz-form-item>
     <nz-form-control>
       <nz-input-group [nzPrefix]="prefixLock">
-        <input type="password" nz-input formControlName="password" placeholder="密码" />
+        <input formControlName="password" nz-input placeholder="密码" type="password"/>
       </nz-input-group>
       <nz-form-explain
         *ngIf="validateForm.get('password')?.dirty"
@@ -50,9 +50,9 @@
   </nz-form-item>
   <nz-form-item>
     <nz-form-control>
-      <nz-alert *ngIf="errorMsg" nzShowIcon nzType="error" [nzMessage]="errorMsg"></nz-alert>
-      <button [disabled]="!validateForm.valid || logging" nz-button class="login-form-button" [nzType]="'primary'">
-        <i nz-icon type="reload" [spin]="true" *ngIf="logging"></i>登录
+      <nz-alert *ngIf="errorMsg" [nzMessage]="errorMsg" nzShowIcon nzType="error"></nz-alert>
+      <button [disabled]="!validateForm.valid || logging" [nzType]="'primary'" class="login-form-button" nz-button>
+        <i *ngIf="logging" [spin]="true" nz-icon type="reload"></i>登录
       </button>
       还没有账号？
       <a routerLink="/register">立即注册</a>

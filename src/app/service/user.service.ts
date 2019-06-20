@@ -3,8 +3,9 @@ import {AuthService} from './auth.service';
 import {HttpClient} from '@angular/common/http';
 import {Observable, Observer} from 'rxjs';
 import {User} from '../entity/user';
-import {delay, timeout} from 'rxjs/operators';
+import {timeout} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {Config} from '../config';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class UserService {
         observer.error('未登录');
       });
     }
-    return this.http.get<User>('http://localhost:8080/user/' + uuid, {
+    return this.http.get<User>(Config.serverUrl + '/user/' + uuid, {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
@@ -37,7 +38,7 @@ export class UserService {
         observer.error('未登录');
       });
     }
-    return this.http.put('http://localhost:8080/user/' + uuid, user, {
+    return this.http.put(Config.serverUrl + '/user/' + uuid, user, {
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
       }
@@ -53,7 +54,7 @@ export class UserService {
         observer.error('未登录');
       });
     }
-    return this.http.post('http://localhost:8080/update-password/' + uuid, null, {
+    return this.http.post(Config.serverUrl + '/update-password/' + uuid, null, {
       params: {'password': password},
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()
@@ -70,7 +71,7 @@ export class UserService {
         observer.error('未登录');
       });
     }
-    return this.http.post('http://localhost:8080/validate-password/' + uuid, null, {
+    return this.http.post(Config.serverUrl + '/validate-password/' + uuid, null, {
       params: {'password': password},
       headers: {
         'Authorization': 'Bearer ' + this.authService.getToken()

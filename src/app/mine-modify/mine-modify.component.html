@@ -1,24 +1,25 @@
 <nz-layout>
   <nz-sider
-    nzCollapsible
     [(nzCollapsed)]="isCollapsed"
     [nzBreakpoint]="'sm'"
     [nzCollapsedWidth]="0"
     [nzZeroTrigger]="zeroTrigger"
+    nzCollapsible
   >
-    <ul nz-menu [nzMode]="'inline'" style="height:100%" [nzInlineCollapsed]="isCollapsed">
+    <ul [nzInlineCollapsed]="isCollapsed" [nzMode]="'inline'" nz-menu style="height:100%">
       <li nz-menu-item><a routerLink="/mine/info"><i nz-icon nzType="info-circle"></i>基本信息</a></li>
       <li nz-menu-item nzSelected><a routerLink="/mine/modify"><i nz-icon nzType="setting"></i>修改密码</a></li>
     </ul>
   </nz-sider>
   <nz-layout>
     <nz-content style="background:#fff; padding: 32px; min-height: 280px;">
-      <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm($event, validateForm.value)">
+      <form (ngSubmit)="submitForm($event, validateForm.value)" [formGroup]="validateForm" nz-form>
         <nz-form-item>
           <nz-form-label [nzSpan]="3" nzRequired>旧密码</nz-form-label>
           <div>
             <nz-form-control [nzSpan]="6" nzHasFeedback>
-              <input nz-input type="password" formControlName="oldPassword" (ngModelChange)="sendValidateOldPassword($event)"/>
+              <input (ngModelChange)="sendValidateOldPassword($event)" formControlName="oldPassword" nz-input
+                     type="password"/>
               <nz-form-explain
                 *ngIf="validateForm.get('oldPassword')?.dirty"
               >
@@ -40,7 +41,7 @@
           <nz-form-label [nzSpan]="3" nzRequired>新密码</nz-form-label>
           <div>
             <nz-form-control [nzSpan]="6" nzHasFeedback>
-              <input nz-input type="password" formControlName="password" (ngModelChange)="validateConfirmPassword()"/>
+              <input (ngModelChange)="validateConfirmPassword()" formControlName="password" nz-input type="password"/>
               <nz-form-explain
                 *ngIf="validateForm.get('password')?.dirty"
               >
@@ -64,7 +65,7 @@
         <nz-form-item>
           <nz-form-label [nzSpan]="3" nzRequired>重复新密码</nz-form-label>
           <nz-form-control [nzSpan]="6" nzHasFeedback>
-            <input nz-input type="password" formControlName="confirm"/>
+            <input formControlName="confirm" nz-input type="password"/>
             <nz-form-explain *ngIf="validateForm.get('confirm')?.dirty && validateForm.get('confirm')?.errors">
               <ng-container *ngIf="validateForm.get('confirm')?.hasError('required')">
                 请重复输入新密码
@@ -77,9 +78,9 @@
         </nz-form-item>
         <nz-form-item>
           <nz-form-control [nzOffset]="3" [nzSpan]="8">
-            <button nz-button [nzType]="applyButtonType" [disabled]="!validateForm.valid" style="margin-top: 30px">
-              <i nz-icon [nzType]="applyButtonIconType"
-                 [spin]="applying" nzTheme="outline"></i>更改密码
+            <button [disabled]="!validateForm.valid" [nzType]="applyButtonType" nz-button style="margin-top: 30px">
+              <i [nzType]="applyButtonIconType" [spin]="applying"
+                 nz-icon nzTheme="outline"></i>更改密码
             </button>
           </nz-form-control>
         </nz-form-item>
@@ -88,5 +89,5 @@
   </nz-layout>
 </nz-layout>
 <ng-template #zeroTrigger>
-  <i nz-icon type="menu-fold" nzTheme="outline"></i>
+  <i nz-icon nzTheme="outline" type="menu-fold"></i>
 </ng-template>

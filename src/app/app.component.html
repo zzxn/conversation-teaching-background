@@ -13,17 +13,17 @@
     <!--    </nz-input-group>-->
     <ul
       *ngIf="authService.hasLogin()"
-      id="mainMenu"
-      nz-menu [nzMode]="'horizontal'"
+      [nzMode]="'horizontal'"
+      id="mainMenu" nz-menu
       nzSelectable="false"
       style="line-height: 62px;"
     >
-      <li nz-menu-item [nzSelected]="this.router.url.startsWith('/course')"><a routerLink="/course-management"><i
+      <li [nzSelected]="this.router.url.startsWith('/course')" nz-menu-item><a routerLink="/course-management"><i
         nz-icon nzType="book"></i>课程管理</a></li>
-      <li nz-menu-item [nzSelected]="this.router.url.startsWith('/mine')"><a routerLink="/mine"><i nz-icon
+      <li [nzSelected]="this.router.url.startsWith('/mine')" nz-menu-item><a routerLink="/mine"><i nz-icon
                                                                                                    nzType="user"></i>我的</a>
       </li>
-      <li nz-menu-item [nzSelected]="false"><a (click)="confirmLogout()"><i nz-icon nzType="logout"></i>登出</a></li>
+      <li [nzSelected]="false" nz-menu-item><a (click)="confirmLogout()"><i nz-icon nzType="logout"></i>登出</a></li>
     </ul>
   </nz-header>
   <router-outlet></router-outlet>

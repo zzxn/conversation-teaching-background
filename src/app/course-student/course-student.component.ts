@@ -14,6 +14,11 @@ import {StudentStatistics} from '../entity/student-statistics';
 export class CourseStudentComponent implements OnInit {
   id: number;
   isCollapsed = false;
+  course: Course;
+  students: Student[];
+  studentStatisticsMap = new Map<string, StudentStatistics>();
+  studentLoading = true;
+  courseLoading = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,13 +31,6 @@ export class CourseStudentComponent implements OnInit {
       nzMaxStack: 2
     });
   }
-
-  course: Course;
-
-  students: Student[];
-  studentStatisticsMap = new Map<string, StudentStatistics>();
-  studentLoading = true;
-  courseLoading = true;
 
   ngOnInit() {
     this.id = +this.route.snapshot.paramMap.get('id');

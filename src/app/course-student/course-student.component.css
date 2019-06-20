@@ -20,9 +20,12 @@
   box-shadow: 1px 1px 5px #1890FF, -1px -1px 5px #1890FF;
 }
 
-@keyframes myfirst
-{
-  from {box-shadow: 1px 1px 1px #1890FF, -1px -1px 1px #1890FF;}
-  to {box-shadow: 1px 1px 5px #1890FF, -1px -1px 5px #1890FF;}
+@keyframes myfirst {
+  from {
+    box-shadow: 1px 1px 1px #1890FF, -1px -1px 1px #1890FF;
+  }
+  to {
+    box-shadow: 1px 1px 5px #1890FF, -1px -1px 5px #1890FF;
+  }
 }
 

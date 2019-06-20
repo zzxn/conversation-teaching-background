@@ -1,12 +1,12 @@
 <nz-layout>
   <nz-sider
-    nzCollapsible
     [(nzCollapsed)]="collapsed"
     [nzBreakpoint]="'sm'"
     [nzCollapsedWidth]="0"
     [nzZeroTrigger]="zeroTrigger"
+    nzCollapsible
   >
-    <ul nz-menu [nzMode]="'inline'" style="height:100%" [nzInlineCollapsed]="collapsed">
+    <ul [nzInlineCollapsed]="collapsed" [nzMode]="'inline'" nz-menu style="height:100%">
       <li nz-menu-item nzSelected><a routerLink="/mine/info"><i nz-icon nzType="info-circle"></i>基本信息</a></li>
       <li nz-menu-item><a routerLink="/mine/modify"><i nz-icon nzType="setting"></i>修改密码</a></li>
     </ul>
@@ -14,54 +14,54 @@
   <nz-layout>
     <nz-spin
       *ngIf="loading"
-      style="text-align: center; margin: 32px;"
       [nzIndicator]="indicatorTemplate"
-      nzSimple></nz-spin>
-    <ng-template #indicatorTemplate><i nz-icon type="loading" style="font-size: 48px;"></i></ng-template>
-    <nz-content style="background:#fff; padding: 32px; min-height: 280px;" *ngIf="!loading">
+      nzSimple
+      style="text-align: center; margin: 32px;"></nz-spin>
+    <ng-template #indicatorTemplate><i nz-icon style="font-size: 48px;" type="loading"></i></ng-template>
+    <nz-content *ngIf="!loading" style="background:#fff; padding: 32px; min-height: 280px;">
       <form nz-form>
 
         <nz-form-item>
-          <nz-form-control nzOffset="2" [nzSm]="8" [nzXs]="24">
+          <nz-form-control [nzSm]="8" [nzXs]="24" nzOffset="2">
             <nz-upload
-              class="avatar-uploader"
-              [nzAction]="'http://localhost:8080/upload-avatar/' + this.user.uuid"
-              nzName="avatar"
-              nzListType="picture-card"
-              [nzShowUploadList]="false"
-              [nzBeforeUpload]="beforeUpload"
               (nzChange)="handleChange($event)"
+              [nzAction]="uploadUrl + '/upload-avatar/' + this.user.uuid"
+              [nzBeforeUpload]="beforeUpload"
+              [nzShowUploadList]="false"
+              class="avatar-uploader"
+              nzListType="picture-card"
+              nzName="avatar"
             >
               <ng-container *ngIf="!this.user.headSculpture">
-                <i class="upload-icon" nz-icon [nzType]="avatarLoading ? 'loading' : 'plus'"></i>
+                <i [nzType]="avatarLoading ? 'loading' : 'plus'" class="upload-icon" nz-icon></i>
                 <div class="ant-upload-text">上传头像</div>
               </ng-container>
-              <img style="width: 87px" *ngIf="this.user.headSculpture" [src]="avatarUrl" class="avatar"/>
+              <img *ngIf="this.user.headSculpture" [src]="avatarUrl" class="avatar" style="width: 87px"/>
             </nz-upload>
           </nz-form-control>
         </nz-form-item>
 
         <nz-form-item>
-          <nz-form-label nzRequired [nzSm]="2" [nzXs]="24" nzFor="username">用户名</nz-form-label>
+          <nz-form-label [nzSm]="2" [nzXs]="24" nzFor="username" nzRequired>用户名</nz-form-label>
           <nz-form-control [nzSm]="8" [nzXs]="24">
-            <input nz-input id="username" name="username" type="text" disabled [readOnly]="true"
-                   [value]="user.username"/>
+            <input [readOnly]="true" [value]="user.username" disabled id="username" name="username" nz-input
+                   type="text"/>
           </nz-form-control>
         </nz-form-item>
 
         <nz-form-item>
           <nz-form-label [nzSm]="2" [nzXs]="24" nzFor="nickname">昵称</nz-form-label>
-          <nz-form-control [nzValidateStatus]="validateNickname(nickname.value) ? 'success' : 'error'" [nzSm]="12"
+          <nz-form-control [nzSm]="12" [nzValidateStatus]="validateNickname(nickname.value) ? 'success' : 'error'"
                            [nzXs]="24">
-            <div nz-row [nzGutter]="8">
-              <div nz-col [nzSpan]="16">
-                <input #nickname nz-input id="nickname" name="nickname" type="text" [readOnly]="true"
-                       [(ngModel)]="user.nickname"/>
+            <div [nzGutter]="8" nz-row>
+              <div [nzSpan]="16" nz-col>
+                <input #nickname [(ngModel)]="user.nickname" [readOnly]="true" id="nickname" name="nickname" nz-input
+                       type="text"/>
                 <nz-form-explain *ngIf="!validateNickname(nickname.value)">昵称不应超过20个字符</nz-form-explain>
               </div>
-              <div nz-col [nzSpan]="4">
-                <button #modifyNickname (click)="makeEditable(nickname, modifyNickname)" nz-button [nzType]="'dashed'">
-                  <i nz-icon nzType="edit" nzTheme="outline"></i>编辑
+              <div [nzSpan]="4" nz-col>
+                <button #modifyNickname (click)="makeEditable(nickname, modifyNickname)" [nzType]="'dashed'" nz-button>
+                  <i nz-icon nzTheme="outline" nzType="edit"></i>编辑
                 </button>
               </div>
             </div>
@@ -69,18 +69,18 @@
         </nz-form-item>
 
         <nz-form-item>
-          <nz-form-label nzRequired [nzSm]="2" [nzXs]="24" nzFor="email">邮箱</nz-form-label>
-          <nz-form-control [nzValidateStatus]="validateEmail(email.value) ? 'success' : 'error'" [nzSm]="12"
+          <nz-form-label [nzSm]="2" [nzXs]="24" nzFor="email" nzRequired>邮箱</nz-form-label>
+          <nz-form-control [nzSm]="12" [nzValidateStatus]="validateEmail(email.value) ? 'success' : 'error'"
                            [nzXs]="24">
-            <div nz-row [nzGutter]="8">
-              <div nz-col [nzSpan]="16">
-                <input #email nz-input id="email" name="email" type="email" [readOnly]="true"
-                       [(ngModel)]="user.email"/>
+            <div [nzGutter]="8" nz-row>
+              <div [nzSpan]="16" nz-col>
+                <input #email [(ngModel)]="user.email" [readOnly]="true" id="email" name="email" nz-input
+                       type="email"/>
                 <nz-form-explain *ngIf="!validateEmail(email.value)">邮箱格式错误</nz-form-explain>
               </div>
-              <div nz-col [nzSpan]="4">
-                <button #modifyEmail (click)="makeEditable(email, modifyEmail)" nz-button [nzType]="'dashed'">
-                  <i nz-icon nzType="edit" nzTheme="outline"></i>编辑
+              <div [nzSpan]="4" nz-col>
+                <button #modifyEmail (click)="makeEditable(email, modifyEmail)" [nzType]="'dashed'" nz-button>
+                  <i nz-icon nzTheme="outline" nzType="edit"></i>编辑
                 </button>
               </div>
             </div>
@@ -88,10 +88,10 @@
         </nz-form-item>
         <nz-form-item>
           <nz-form-control [nzOffset]="2">
-            <button [disabled]="!emailValid || !nicknameValid || applying || (nickname.readOnly && email.readOnly)"
-                    (click)="applyModify()" nz-button [nzType]="applyButtonType" style="margin-top: 30px">
-              <i nz-icon [nzType]="applyButtonIconType"
-                 [spin]="applying"
+            <button (click)="applyModify()"
+                    [disabled]="!emailValid || !nicknameValid || applying || (nickname.readOnly && email.readOnly)" [nzType]="applyButtonType" nz-button style="margin-top: 30px">
+              <i [nzType]="applyButtonIconType" [spin]="applying"
+                 nz-icon
                  nzTheme="outline"></i>
               应用更改
             </button>
@@ -102,5 +102,5 @@
   </nz-layout>
 </nz-layout>
 <ng-template #zeroTrigger>
-  <i nz-icon type="menu-fold" nzTheme="outline"></i>
+  <i nz-icon nzTheme="outline" type="menu-fold"></i>
 </ng-template>

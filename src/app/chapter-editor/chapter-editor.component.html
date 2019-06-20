@@ -1,45 +1,46 @@
 <nz-collapse [nzBordered]="false">
   <nz-collapse-panel
     #p
-    [nzHeader]="chapter.name"
     [nzExtra]="chapterDeleteButton"
+    [nzHeader]="chapter.name"
     class="chapter-entry"
   >
     <ng-template #chapterDeleteButton>
-      <button class="chapter-modify-button" (click)="renameThisChapter($event)" nz-button nzType="default">
+      <button (click)="renameThisChapter($event)" class="chapter-modify-button" nz-button nzType="default">
         重命名
       </button>
-      <button class="chapter-modify-button" (click)="deleteThisChapter($event)" nz-button nzType="danger">
+      <button (click)="deleteThisChapter($event)" class="chapter-modify-button" nz-button nzType="danger">
         删除
       </button>
     </ng-template>
     <nz-layout class="message-list-layout">
       <nz-spin
         *ngIf="isLoading"
-        style="text-align: center; margin: 32px;"
         [nzIndicator]="indicatorTemplate"
-        nzSimple></nz-spin>
-      <ng-template #indicatorTemplate><i nz-icon type="loading" style="font-size: 48px;"></i></ng-template>
+        nzSimple
+        style="text-align: center; margin: 32px;"></nz-spin>
+      <ng-template #indicatorTemplate><i nz-icon style="font-size: 48px;" type="loading"></i></ng-template>
       <nz-list *ngIf="!isLoading">
-        <nz-list-item class="message-entry" *ngFor="let content of contents; let i = index;">
+        <nz-list-item *ngFor="let content of contents; let i = index;" class="message-entry">
           <div style="width: 100%;">
             <div nz-row style="width: 100%;">
               <div nz-col nzSpan="20">
-                <span class="message-index">{{i}}&nbsp;&nbsp;<i nz-icon nzType="caret-right" nzTheme="outline"></i>&nbsp;&nbsp;</span>{{content.text}}
+                <span class="message-index">{{i}}&nbsp;&nbsp;<i nz-icon nzTheme="outline" nzType="caret-right"></i>&nbsp;&nbsp;</span>{{content.text}}
               </div>
-              <div nz-col nzSpan="4" class="content-modify-button-group">
-                <button class="content-modify-button" (click)="deleteContent(content)" nz-button nzType="danger"
-                        nzShape="circle">
+              <div class="content-modify-button-group" nz-col nzSpan="4">
+                <button (click)="deleteContent(content)" class="content-modify-button" nz-button nzShape="circle"
+                        nzType="danger">
                   <i nz-icon nzType="delete"></i>
                 </button>
-                <button *ngIf="false" class="content-modify-button" (click)="modifyContent(content)" nz-button nzType="default"
-                        nzShape="circle">
+                <button (click)="modifyContent(content)" *ngIf="false" class="content-modify-button" nz-button
+                        nzShape="circle"
+                        nzType="default">
                   <i nz-icon nzType="edit"></i>
                 </button>
               </div>
             </div>
-            <div style="padding-left: 30px" *ngIf="content.type === 2">
-              <nz-divider style="margin-top: 10px; margin-bottom: 10px" nzDashed="true"></nz-divider>
+            <div *ngIf="content.type === 2" style="padding-left: 30px">
+              <nz-divider nzDashed="true" style="margin-top: 10px; margin-bottom: 10px"></nz-divider>
               <p *ngFor="let option of content.options">
                 <nz-tag
                   [nzColor]="option.isCorrect ? 'green' : 'volcano'">{{['A', 'B', 'C', 'D'][option.optionId - 1]}}</nz-tag>
@@ -53,30 +54,30 @@
     <nz-spin *ngIf="!isLoading" [nzSpinning]="creatingMessage">
       <div *ngIf="!isLoading" class="input-line">
         <label style="display: none;">输入新消息内容：</label>
-        <input [(ngModel)]="plainContent" *ngIf="messageType === 'plain'" placeholder="请输入新消息内容"
-               class="new-message-input"
-               nz-input type="text"/>
-        <input [(ngModel)]="questionContent" *ngIf="messageType === 'question'" placeholder="请输入问题，并在下方编辑答案"
-               class="new-message-input" nz-input
+        <input *ngIf="messageType === 'plain'" [(ngModel)]="plainContent" class="new-message-input"
+               nz-input
+               placeholder="请输入新消息内容" type="text"/>
+        <input *ngIf="messageType === 'question'" [(ngModel)]="questionContent" class="new-message-input"
+               nz-input placeholder="请输入问题，并在下方编辑答案"
                type="text"/>
         <button
           (click)="createMessage()"
           class="add-message-button"
-          nz-button nzType="primary"
-          nzShape="circle"
-          nzSize="large">
-          <i nz-icon [nzType]="messageType === 'plain' ? 'plus' : 'question'"></i>
+          nz-button nzShape="circle"
+          nzSize="large"
+          nzType="primary">
+          <i [nzType]="messageType === 'plain' ? 'plus' : 'question'" nz-icon></i>
         </button>
         <button
           (click)="switchMessageType()"
           class="add-message-button"
-          nz-button nzType="default"
-          nzShape="circle"
-          nzSize="large">
+          nz-button nzShape="circle"
+          nzSize="large"
+          nzType="default">
           <i nz-icon nzType="swap"></i>
         </button>
       </div>
-      <div class="input-line" *ngIf="messageType === 'question'">
+      <div *ngIf="messageType === 'question'" class="input-line">
         <label>正确答案：</label>
         <nz-radio-group [(ngModel)]="correctAnswer" class="answer-line">
           <label nz-radio nzValue="1">A</label>
@@ -84,45 +85,45 @@
           <label nz-radio nzValue="3">C</label>
           <label nz-radio nzValue="4">D</label>
         </nz-radio-group>
-        <nz-input-group nzAddOnBefore="A" class="answer-line">
-          <input [(ngModel)]="options[0].text" type="text" nz-input/>
+        <nz-input-group class="answer-line" nzAddOnBefore="A">
+          <input [(ngModel)]="options[0].text" nz-input type="text"/>
         </nz-input-group>
-        <nz-input-group nzAddOnBefore="B" class="answer-line">
-          <input [(ngModel)]="options[1].text" type="text" nz-input/>
+        <nz-input-group class="answer-line" nzAddOnBefore="B">
+          <input [(ngModel)]="options[1].text" nz-input type="text"/>
         </nz-input-group>
-        <nz-input-group nzAddOnBefore="C" class="answer-line">
-          <input [(ngModel)]="options[2].text" type="text" nz-input/>
+        <nz-input-group class="answer-line" nzAddOnBefore="C">
+          <input [(ngModel)]="options[2].text" nz-input type="text"/>
         </nz-input-group>
-        <nz-input-group nzAddOnBefore="D" class="answer-line">
-          <input [(ngModel)]="options[3].text" type="text" nz-input/>
+        <nz-input-group class="answer-line" nzAddOnBefore="D">
+          <input [(ngModel)]="options[3].text" nz-input type="text"/>
         </nz-input-group>
       </div>
     </nz-spin>
     <ng-template let-active>
       {{ active }}
-      <i nz-icon type="caret-right" class="ant-collapse-arrow" [nzRotate]="p.nzActive ? 90 : -90"></i>
+      <i [nzRotate]="p.nzActive ? 90 : -90" class="ant-collapse-arrow" nz-icon type="caret-right"></i>
     </ng-template>
   </nz-collapse-panel>
 </nz-collapse>
 
 <nz-modal
+  (nzOnCancel)="handleRenameCancel()"
   [(nzVisible)]="renameModalVisible"
-  [nzTitle]="modalTitle"
   [nzContent]="modalContent"
   [nzFooter]="modalFooter"
-  (nzOnCancel)="handleRenameCancel()"
+  [nzTitle]="modalTitle"
 >
   <ng-template #modalTitle>
     重命名章节
   </ng-template>
 
   <ng-template #modalContent>
-    <input [(ngModel)]="newChapterName" nz-input placeholder="请输入新章节名" nzSize="default"/>
+    <input [(ngModel)]="newChapterName" nz-input nzSize="default" placeholder="请输入新章节名"/>
   </ng-template>
 
   <ng-template #modalFooter>
     <span>确定修改吗？</span>
-    <button nz-button nzType="default" (click)="handleRenameCancel()">取消</button>
-    <button nz-button nzType="primary" (click)="renameChapter()" [nzLoading]="renamingChapter">确定</button>
+    <button (click)="handleRenameCancel()" nz-button nzType="default">取消</button>
+    <button (click)="renameChapter()" [nzLoading]="renamingChapter" nz-button nzType="primary">确定</button>
   </ng-template>
 </nz-modal>

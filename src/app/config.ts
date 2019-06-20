@@ -1,7 +1,7 @@
 // config server url and image storage url here
 
 export class Config {
-  private static _serverUrl = 'http://localhost:8080';
+  private static _serverUrl = 'http://47.102.131.149';
 
   static get serverUrl(): string {
     return this._serverUrl;
